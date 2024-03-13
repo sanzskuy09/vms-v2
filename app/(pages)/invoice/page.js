@@ -76,7 +76,7 @@ const columns = [
     align: "center",
     render: (_, record) => (
       <Space size="middle">
-        <Link href={`/purchase-order/${record?.id}`}>
+        <Link href={`/invoice/detail/${record?.id}`}>
           <Image src={ICONS.IC_SHOW_GREY} alt="show-icon" />
         </Link>
       </Space>

@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       colors: {
         primary: "#ED1B24",
+        secondary: "#F5F5F5",
       },
       backgroundImage: {
         "bg-login": "url('/assets/image/bg_login.png')",

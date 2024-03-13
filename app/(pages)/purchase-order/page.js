@@ -17,7 +17,6 @@ const columns = [
     title: "Referensi",
     dataIndex: "id",
     key: "id",
-    // render: (text) => <a>{text}</a>,
   },
   {
     title: "Merchant",
@@ -72,7 +71,7 @@ const columns = [
     align: "center",
     render: (_, record) => (
       <Space size="middle">
-        <Link href={`/purchase-order/${record?.id}`}>
+        <Link href={`/purchase-order/detail/${record?.id}`}>
           <Image src={ICONS.IC_SHOW_GREY} alt="show-icon" />
         </Link>
       </Space>
@@ -106,14 +105,7 @@ const PurchaseOrder = () => {
             },
           }}
         >
-          <Table
-            columns={columns}
-            dataSource={data}
-            // pagination={{
-            //   showSizeChanger: true,
-            //   pageSizeOptions: ["10", "20", "50"],
-            // }}
-          />
+          <Table columns={columns} dataSource={data} />
         </ConfigProvider>
       </div>
     </div>

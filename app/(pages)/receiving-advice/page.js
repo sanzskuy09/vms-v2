@@ -55,7 +55,7 @@ const columns = [
     align: "center",
     render: (_, record) => (
       <Space size="middle">
-        <Link href={`/receiving-advice/${record?.id}`}>
+        <Link href={`/receiving-advice/detail/${record?.id}`}>
           <Image src={ICONS.IC_SHOW_GREY} alt="show-icon" />
         </Link>
       </Space>

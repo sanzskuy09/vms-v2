@@ -25,7 +25,7 @@ const Navbar = () => {
     {
       title: "Proforma Invoice",
       img: ICON.IC_PFI,
-      href: "proforma-invoice",
+      href: "/proforma-invoice",
     },
     {
       title: "Proforma Invoice Response",
