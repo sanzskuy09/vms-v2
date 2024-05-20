@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -7,9 +7,9 @@ import { ConfigProvider, Space, Table, Tag } from "antd";
 
 import ICONS from "@/config/icons";
 
-import { data } from "./data";
-
 import dayjs from "dayjs";
+
+import { API, URL } from "@/config/api";
 
 const columns = [
   {
@@ -57,6 +57,23 @@ const columns = [
 ];
 
 const ProformaInvoice = () => {
+  const [data, setData] = useState([]);
+
+  const getDataPFI = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_PFI);
+
+      const data = res.data.result.items;
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataPFI();
+  }, []);
+
   return (
     <div>
       <h1 className="text-4xl mb-12">Proforma Invoice</h1>

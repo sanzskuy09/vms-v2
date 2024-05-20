@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -10,6 +10,8 @@ import ICONS from "@/config/icons";
 import { data } from "../receiving-advice/data";
 
 import dayjs from "dayjs";
+
+import { API, URL } from "@/config/api";
 
 const columns = [
   {
@@ -64,6 +66,23 @@ const columns = [
 ];
 
 const ReceivingAdviceResponse = () => {
+  const [data, setData] = useState([]);
+
+  const getDataRAR = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_RAR);
+
+      const data = res.data.result.items;
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataRAR();
+  }, []);
+
   return (
     <div>
       <h1 className="text-4xl mb-12">Receiving Advice Response</h1>

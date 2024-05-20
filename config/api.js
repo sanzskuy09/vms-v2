@@ -9,3 +9,25 @@ export const API = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const URL = {
+  LOGIN: "/user/login",
+
+  // PO
+  GET_LIST_PO: "/po/polist",
+
+  // RA
+  GET_LIST_RA: "/ra/ralist",
+
+  // RAR
+  GET_LIST_RAR: "/rar/rarlist",
+
+  // PFI
+  GET_LIST_PFI: "/pfi/pfilist",
+
+  // PFIR
+  GET_LIST_PFIR: "/pfir/pfirlist",
+
+  // INV
+  GET_LIST_INV: "/inv/invlist",
+};

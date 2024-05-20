@@ -9,15 +9,27 @@ import ICONS from "@/config/icons";
 
 import { ConfigProvider, Form, Input } from "antd";
 
+import { API, URL } from "../../config/api";
+
+import { toastFailed, toastSuccess } from "../../utils/toastify";
+
 const LoginPage = () => {
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // Handle login logic here
-    console.log("Username:", e.username);
-    console.log("Password:", e.password);
+    try {
+      const res = await API.post(URL.LOGIN, e);
 
-    dispatch(loginUser({ username: e.username, password: e.password }));
+      dispatch(loginUser(res.data.result));
+
+      localStorage.setItem("token", res.data.result.token);
+
+      toastSuccess("Login Success");
+    } catch (error) {
+      console.log(error);
+      toastFailed("Username or Password is wrong");
+    }
   };
 
   const onFinishFailed = (errorInfo) => {

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -7,10 +7,9 @@ import { ConfigProvider, Space, Table, Tag } from "antd";
 
 import ICONS from "@/config/icons";
 
-import { data } from "./data";
-
 import { formatToRupiah } from "@/utils/FormatCurrency";
 import dayjs from "dayjs";
+import { API, URL } from "@/config/api";
 
 const columns = [
   {
@@ -80,6 +79,23 @@ const columns = [
 ];
 
 const PurchaseOrder = () => {
+  const [data, setData] = useState([]);
+
+  const getDataPO = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_PO);
+
+      const data = res.data.result.items;
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataPO();
+  }, []);
+
   return (
     <div>
       <h1 className="text-4xl mb-12">Purchase Order</h1>

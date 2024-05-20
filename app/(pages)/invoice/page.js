@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -11,6 +11,8 @@ import { data } from "./data";
 
 import { formatToRupiah } from "@/utils/FormatCurrency";
 import dayjs from "dayjs";
+
+import { API, URL } from "@/config/api";
 
 const columns = [
   {
@@ -85,6 +87,23 @@ const columns = [
 ];
 
 const Invoice = () => {
+  const [data, setData] = useState([]);
+
+  const getDataINV = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_INV);
+
+      const data = res.data.result.items;
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataINV();
+  }, []);
+
   return (
     <div>
       <h1 className="text-4xl mb-12">Invoice</h1>
