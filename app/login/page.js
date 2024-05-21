@@ -24,6 +24,8 @@ const LoginPage = () => {
       dispatch(loginUser(res.data.result));
 
       localStorage.setItem("token", res.data.result.token);
+      localStorage.setItem("role", res.data.result.user.nama_role);
+      localStorage.setItem("username", res.data.result.user.username);
 
       toastSuccess("Login Success");
     } catch (error) {

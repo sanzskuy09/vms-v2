@@ -22,13 +22,13 @@ const columns = [
   },
   {
     title: "Merchant",
-    dataIndex: "merchant",
-    key: "merchant",
+    dataIndex: "supplier_name",
+    key: "supplier_name",
   },
   {
     title: "Tanggal Diterima",
-    dataIndex: "tgl_pfi",
-    key: "tgl_pfi",
+    dataIndex: "pro_forma_invoice_date",
+    key: "pro_forma_invoice_date",
     render: (text) => {
       const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
@@ -36,13 +36,18 @@ const columns = [
   },
   {
     title: "Toko",
-    dataIndex: "toko",
-    key: "toko",
+    dataIndex: "store",
+    key: "store",
   },
   {
     title: "Revisi",
-    dataIndex: "revisi",
-    key: "revisi",
+    dataIndex: "revision",
+    key: "revision",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
   },
 
   {

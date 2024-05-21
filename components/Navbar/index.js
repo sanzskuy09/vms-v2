@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,14 @@ import Link from "next/link";
 import ICON from "@/config/icons";
 
 const Navbar = () => {
+  const [user, setUser] = useState("");
+
+  // let username = "";
+  useEffect(() => {
+    const username = localStorage.getItem("username") || "Admin";
+    setUser(username);
+  }, []);
+
   const itemMenu = [
     {
       title: "Purchase Order",
@@ -46,7 +55,7 @@ const Navbar = () => {
           <Link href="/dashboard">
             <div className="flex items-center gap-4">
               <Image src={ICON.IC_LOGO} alt="logo" width={50} />
-              <h1 className="font-medium text-xl">O399</h1>
+              <h1 className="font-medium text-xl">{user}</h1>
             </div>
           </Link>
 

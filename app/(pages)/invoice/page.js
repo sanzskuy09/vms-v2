@@ -23,23 +23,23 @@ const columns = [
   },
   {
     title: "Merchant",
-    dataIndex: "merchant",
-    key: "merchant",
+    dataIndex: "supplier_name",
+    key: "supplier_name",
   },
   {
     title: "Revisi",
-    dataIndex: "revisi",
-    key: "revisi",
+    dataIndex: "revision",
+    key: "revision",
   },
   {
     title: "Nomor Seri Pajak",
-    dataIndex: "nomor_pajak",
-    key: "nomor_pajak",
+    dataIndex: "tax_serial_number",
+    key: "tax_serial_number",
   },
   {
     title: "Tanggal Ubah",
-    dataIndex: "last_updated",
-    key: "last_updated",
+    dataIndex: "date_updated",
+    key: "date_updated",
     render: (text) => {
       const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
@@ -47,8 +47,8 @@ const columns = [
   },
   {
     title: "Tanggal Faktur pajak",
-    dataIndex: "tgl_pajak",
-    key: "tgl_pajak",
+    dataIndex: "tax_invoice_date",
+    key: "tax_invoice_date",
     render: (text) => {
       const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
@@ -56,14 +56,14 @@ const columns = [
   },
   {
     title: "Total Sebelum pajak",
-    dataIndex: "total_harga",
-    key: "total_harga",
+    dataIndex: "harga_sesudah_pajak",
+    key: "harga_sesudah_pajak",
     render: (text) => <p>{formatToRupiah(text)}</p>,
   },
   {
     title: "Toko",
-    dataIndex: "toko",
-    key: "toko",
+    dataIndex: "store",
+    key: "store",
   },
   {
     title: "Status",

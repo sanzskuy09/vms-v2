@@ -10,6 +10,7 @@ export default function Home() {
   const router = useRouter();
 
   const authUser = useAppSelector((state) => state?.auth?.isLogin ?? false);
+  // const authUser = localStorage.getItem("token");
   console.log(authUser);
 
   return authUser ? router.push("/dashboard") : router.push("/login");

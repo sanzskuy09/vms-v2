@@ -19,18 +19,18 @@ const columns = [
   },
   {
     title: "Merchant",
-    dataIndex: "merchant",
-    key: "merchant",
+    dataIndex: "business_unit_name",
+    key: "business_unit_name",
   },
   {
     title: "Nomor Order",
-    dataIndex: "nomor_order",
-    key: "nomor_order",
+    dataIndex: "po_no",
+    key: "po_no",
   },
   {
     title: "Tanggal Order",
-    dataIndex: "tgl_order",
-    key: "tgl_order",
+    dataIndex: "order_date",
+    key: "order_date",
     // render: (text) => <p>{dayjs(text).format("DD-MM-YYYY")}</p>,
     render: (text) => {
       const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
@@ -39,8 +39,8 @@ const columns = [
   },
   {
     title: "Perubahan Terakhir",
-    dataIndex: "last_updated",
-    key: "last_updated",
+    dataIndex: "date_updated",
+    key: "date_updated",
     render: (text) => {
       const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
@@ -48,14 +48,17 @@ const columns = [
   },
   {
     title: "Total Harga",
-    dataIndex: "total_harga",
-    key: "total_harga",
+    dataIndex: "total_amount",
+    key: "total_amount",
     render: (text) => <p>{formatToRupiah(text)}</p>,
   },
   {
     title: "Toko",
-    dataIndex: "toko",
-    key: "toko",
+    dataIndex: "supplier_name",
+    key: "supplier_name",
+    render: (_, record) => (
+      <p>{record?.dept_code + " - " + record?.supplier_name}</p>
+    ),
   },
   {
     title: "Status",

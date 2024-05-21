@@ -1,49 +1,122 @@
+"use client";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import ICONS from "@/config/icons";
 import Link from "next/link";
+import { API, URL } from "@/config/api";
 
 const Dashboard = () => {
+  const [dataPO, setDataPO] = useState(0);
+  const [dataRA, setDataRA] = useState(0);
+  const [dataRAR, setDataRAR] = useState(0);
+  const [dataPFI, setDataPFI] = useState(0);
+  const [dataPFIR, setDataPFIR] = useState(0);
+  const [dataINV, setDataINV] = useState(0);
+
   const data = [
     {
       title: "Purchase Order",
-      jumlah: 546,
+      jumlah: dataPO,
       link: "/purchase-order",
-      id: "79240839475",
     },
     {
       title: "Receiving Advice",
-      jumlah: 546,
+      jumlah: dataRA,
       link: "/receiving-advice",
-      id: "79240839475",
     },
     {
       title: "Receiving Advice Response",
-      jumlah: 546,
+      jumlah: dataRAR,
       link: "/receiving-advice-response",
-      id: "79240839475",
     },
     {
       title: "Proforma Invoice",
-      jumlah: 546,
+      jumlah: dataPFI,
       link: "/proforma-invoice",
-      id: "79240839475",
     },
     {
       title: "Proforma Invoice Response",
-      jumlah: 546,
+      jumlah: dataPFIR,
       link: "/proforma-invoice-response",
-      id: "79240839475",
     },
     {
       title: "Invoice",
-      jumlah: 546,
-      link: "/invoive",
-      id: "79240839475",
+      jumlah: dataINV,
+      link: "/invoice",
     },
   ];
+
+  const getDataPO = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_PO);
+      const data = res.data.result.items;
+      setDataPO(data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataRA = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_RA);
+      const data = res.data.result.items;
+      setDataRA(data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataRAR = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_RAR);
+      const data = res.data.result.items;
+      setDataRAR(data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataPFI = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_PFI);
+      const data = res.data.result.items;
+      setDataPFI(data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataPFIR = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_PFIR);
+      const data = res.data.result.items;
+      setDataPFIR(data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataINV = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_INV);
+      const data = res.data.result.items;
+      setDataINV(data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataPO();
+    getDataRA();
+    getDataRAR();
+    getDataPFI();
+    getDataPFIR();
+    getDataINV();
+  }, []);
+
   return (
     <div>
       <h1 className="text-4xl mb-12">Dashboard</h1>
@@ -67,7 +140,7 @@ const Dashboard = () => {
                       <td className="py-4 px-4">{e.title}</td>
                       <td className="py-4 px-4">{e.jumlah}</td>
                       <td className="py-4 px-4">
-                        <Link href={`${e?.link}/${e?.id}`}>
+                        <Link href={e?.link}>
                           <Image src={ICONS.IC_SHOW_RED} alt="show-icon" />
                         </Link>
                       </td>
