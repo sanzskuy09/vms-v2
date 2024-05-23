@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { formatToRupiah } from "@/utils/FormatCurrency";
 
 import { ConfigProvider, Space, Table, Tag } from "antd";
+import { API, URL } from "@/config/api";
 
 const columns = [
   {
@@ -30,69 +31,56 @@ const columns = [
     title: "Gratis",
     dataIndex: "free",
     key: "free",
+    render: (text) => <p>0.00</p>,
   },
   {
     title: "QTY Dipesan",
-    dataIndex: "qty",
-    key: "qty",
+    dataIndex: "order_qty",
+    key: "order_qty",
   },
   {
     title: "QTY Konten",
     dataIndex: "qty_pack",
     key: "qty_pack",
+    render: (text) => <p>{text ? text : "-"}</p>,
   },
   {
     title: "Total Diterima",
-    dataIndex: "total_qty",
-    key: "total_qty",
+    dataIndex: "received_qty",
+    key: "received_qty",
   },
   {
     title: "Revised",
-    dataIndex: "revised",
-    key: "revised",
+    dataIndex: "is_revised",
+    key: "is_revised",
   },
   {
     title: "Service Level",
     dataIndex: "service_level",
     key: "service_level",
-    render: (text) => <p>{text} %</p>,
-  },
-  // {
-  //   title: "Harga Unit",
-  //   dataIndex: "price",
-  //   key: "price",
-  //   render: (text) => <p>{formatToRupiah(text)}</p>,
-  // },
-];
-
-const data = [
-  {
-    product_code: "901822",
-    barcode: "5 kg/202685000000",
-    product_name: "CHICKEN NUGGET 5KG",
-    free: "",
-    qty: 25,
-    qty_pack: 1,
-    total_qty: 25,
-    revised: "N",
-    service_level: 100,
-    id: "9074816389098",
-  },
-  {
-    product_code: "901822",
-    barcode: "5 kg/202685000000",
-    product_name: "CHICKEN NUGGET 5KG",
-    free: "",
-    qty: 25,
-    qty_pack: 1,
-    total_qty: 25,
-    revised: "N",
-    service_level: 100,
-    id: "9074816389098",
+    render: (text) => <p>100 %</p>,
   },
 ];
 
-const TableData = () => {
+const TableData = ({ params }) => {
+  const [data, setData] = useState([]);
+
+  const getItemRA = async () => {
+    try {
+      const res = await API.get(`${URL.GET_ITEM_RA}?id=${params}`);
+
+      // console.log(res);
+      const data = res.data.result.items;
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getItemRA();
+  }, []);
+
   return (
     <div>
       <div>Showing : 1 to 10 (95)</div>

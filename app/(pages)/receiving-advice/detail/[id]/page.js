@@ -4,8 +4,32 @@ import React from "react";
 import CardInfoOrder from "./CardInfoOrder";
 import CardInfoSupplier from "./CardInfoSupplier";
 import TableData from "./TableData";
+import { useState } from "react";
+import { useEffect } from "react";
+
+import { API, URL } from "@/config/api";
 
 const DetailRarPage = ({ params }) => {
+  const [data, setData] = useState([]);
+
+  const getItemRA = async () => {
+    try {
+      const res = await API.post(URL.GET_DETAIL_RA, {
+        id: params.id,
+      });
+
+      // console.log(res.data.result.items[0]);
+      const data = res.data.result.items[0];
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getItemRA();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -25,11 +49,11 @@ const DetailRarPage = ({ params }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <CardInfoOrder />
-        <CardInfoSupplier />
+        <CardInfoOrder data={data} />
+        <CardInfoSupplier data={data} />
       </div>
 
-      <TableData />
+      <TableData params={params.id} />
     </div>
   );
 };

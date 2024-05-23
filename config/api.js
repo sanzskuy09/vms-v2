@@ -18,6 +18,8 @@ export const URL = {
 
   // RA
   GET_LIST_RA: "/ra/ralist",
+  GET_ITEM_RA: "/ra/itemra",
+  GET_DETAIL_RA: "/ra/detailra",
 
   // RAR
   GET_LIST_RAR: "/rar/rarlist",
