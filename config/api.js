@@ -15,6 +15,8 @@ export const URL = {
 
   // PO
   GET_LIST_PO: "/po/polist",
+  GET_ITEM_PO: "/po/itempo",
+  GET_DETAIL_PO: "/po/detailPO",
 
   // RA
   GET_LIST_RA: "/ra/ralist",

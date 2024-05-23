@@ -1,5 +1,7 @@
 import React from "react";
 
+import dayjs from "dayjs";
+
 const CardInformation = ({
   title,
   subTitle,
@@ -39,7 +41,14 @@ const CardInformation = ({
           {column?.map((e) => (
             <div className="flex" key={e.key}>
               <p className="min-w-[40%]">{e.title}</p>
-              <p>: {data[e.key] != "" ? data[e.key] : "-"}</p>
+              <p>
+                :{" "}
+                {data[e.key] != ""
+                  ? e.dataIndex === "date"
+                    ? dayjs(data[e.key]).subtract(1, "day").format("DD-MM-YYYY")
+                    : data[e.key]
+                  : "-"}
+              </p>
             </div>
           ))}
         </div>

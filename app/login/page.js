@@ -12,8 +12,10 @@ import { ConfigProvider, Form, Input } from "antd";
 import { API, URL } from "../../config/api";
 
 import { toastFailed, toastSuccess } from "../../utils/toastify";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (e) => {
@@ -28,6 +30,7 @@ const LoginPage = () => {
       localStorage.setItem("username", res.data.result.user.username);
 
       toastSuccess("Login Success");
+      router.push("/dashboard");
     } catch (error) {
       console.log(error);
       toastFailed("Username or Password is wrong");

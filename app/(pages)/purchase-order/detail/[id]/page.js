@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import CardInfoOrder from "./CardInfoOrder";
 import CardInfoSupplier from "./CardInfoSupplier";
@@ -7,7 +7,52 @@ import TableData from "./TableData";
 
 import { formatToRupiah } from "@/utils/FormatCurrency";
 
+import { API, URL } from "@/config/api";
+
 const DetailPoPage = ({ params }) => {
+  // console.log(params.id);
+  const [dataItem, setDataItem] = useState([]);
+  const [dataDetail, setDataDetail] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getDataItemPO = async () => {
+    try {
+      setLoading(true);
+      const res = await API.get(
+        `${URL.GET_ITEM_PO}?purchase_order=${params?.id}`
+      );
+
+      const data = res.data.result.items;
+      setDataItem(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const getDataDetailPO = async () => {
+    try {
+      setLoading(true);
+      const res = await API.post(URL.GET_DETAIL_PO, { id: params.id });
+
+      const data = res.data.result.items[0];
+      setDataDetail(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  // console.log("data item", dataItem);
+  // console.log("data detail", dataDetail);
+
+  useEffect(() => {
+    getDataItemPO();
+    getDataDetailPO();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -21,11 +66,11 @@ const DetailPoPage = ({ params }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <CardInfoOrder />
-        <CardInfoSupplier />
+        <CardInfoOrder data={dataDetail} />
+        <CardInfoSupplier data={dataDetail} />
       </div>
 
-      <TableData />
+      <TableData data={dataItem} />
 
       <div>
         <p className="font-semibold m-0">Keterangan :</p>

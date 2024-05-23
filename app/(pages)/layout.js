@@ -8,14 +8,22 @@ import Navbar from "@/components/Navbar";
 const PageLayout = ({ children }) => {
   const router = useRouter();
 
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const tokenExist =
+      typeof window !== "undefined" && window.localStorage.getItem("token");
+    setToken(tokenExist);
+  }, []);
+
   // const authUser = useAppSelector((state) => state?.auth?.isLogin ?? false);
 
   // if (!authUser) return router.push("/login");
 
-  const tokenExist =
-    typeof window !== "undefined" && localStorage.getItem("token");
+  // const tokenExist =
+  //   typeof window !== "undefined" && localStorage.getItem("token");
 
-  if (tokenExist == "" || tokenExist == null) return router.push("/login");
+  if (token === "" && token === null) return router.push("/login");
 
   return (
     <div>

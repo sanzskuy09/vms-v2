@@ -7,70 +7,66 @@ import { ConfigProvider, Space, Table, Tag } from "antd";
 
 const columns = [
   {
+    title: "No",
+    key: "index",
+    render: (value, item, index) => index + 1,
+  },
+  {
     title: "Kode Barang",
-    dataIndex: "product_code",
-    key: "product_code",
+    dataIndex: "item_code",
+    key: "item_code",
   },
   {
     title: "Kapasitas/Barcode",
     dataIndex: "barcode",
     key: "barcode",
+    render: (_, render) => (
+      <p>
+        {render.capacity} / {render.barcode}
+      </p>
+    ),
   },
   {
     title: "Nama Barang",
-    dataIndex: "product_name",
-    key: "product_name",
+    dataIndex: "item_name",
+    key: "item_name",
   },
   {
     title: "QTY order",
-    dataIndex: "qty",
-    key: "qty",
+    dataIndex: "order_qty_insku",
+    key: "order_qty_insku",
   },
   {
     title: "QTY/Pack",
-    dataIndex: "qty_pack",
-    key: "qty_pack",
+    dataIndex: "order_qty_in_pack",
+    key: "order_qty_in_pack",
   },
   {
     title: "Total Qty",
-    dataIndex: "total_qty",
-    key: "total_qty",
+    dataIndex: "qty_per_pack",
+    key: "qty_per_pack",
   },
   {
     title: "Harga Unit",
-    dataIndex: "price",
-    key: "price",
+    dataIndex: "unit_price",
+    key: "unit_price",
     render: (text) => <p>{formatToRupiah(text)}</p>,
   },
 ];
 
-const data = [
-  {
-    product_code: "901822",
-    barcode: "5 kg/202685000000",
-    product_name: "CHICKEN NUGGET 5KG",
-    qty: 25,
-    qty_pack: 1,
-    total_qty: 25,
-    price: 1765300,
-    id: "9074816389098",
-  },
-  {
-    product_code: "901822",
-    barcode: "5 kg/202685000000",
-    product_name: "CHICKEN NUGGET 5KG",
-    qty: 25,
-    qty_pack: 1,
-    total_qty: 25,
-    price: 353000,
-    id: "9074816389098",
-  },
-];
+const TableData = ({ data }) => {
+  const getTotalPrice = (data) => {
+    let total = 0;
 
-const TableData = () => {
+    data.forEach((item) => {
+      total += item.unit_price * item.order_qty_insku;
+    });
+
+    return formatToRupiah(total);
+  };
   return (
     <div>
-      <div>Showing : 1 to 10 (95)</div>
+      <div>Showing : 1 to 10 ({data.length})</div>
       <div className="overflow-auto mt-2">
         <ConfigProvider
           theme={{
@@ -96,7 +92,8 @@ const TableData = () => {
         </ConfigProvider>
       </div>
       <div className="text-end font-semibold mt-4">
-        Total Harga : {formatToRupiah(1734000)}
+        Total Harga : {getTotalPrice(data)}
+        {/* {formatToRupiah(parseInt(data.order_qty_insku) * data.unit_price)} */}
       </div>
     </div>
   );

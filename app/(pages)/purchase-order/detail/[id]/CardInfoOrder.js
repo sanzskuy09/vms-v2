@@ -4,7 +4,7 @@ import CardInformation from "@/components/CardInformation";
 const columnCard = [
   {
     title: "Informasi Pengirim",
-    key: "info_pengirim",
+    key: "sender_code",
   },
   {
     title: "Kode Departemen",
@@ -12,19 +12,21 @@ const columnCard = [
   },
   {
     title: "Pengiriman Ke",
-    key: "send_to",
+    key: "delivery_to",
   },
   {
     title: "Nomor Order",
-    key: "no_order",
+    key: "po_no",
   },
   {
     title: "Tanggal Order",
-    key: "tgl_order",
+    key: "order_date",
+    dataIndex: "date",
   },
   {
     title: "Tanggal Penerimaan",
-    key: "tgl_received",
+    key: "expected_delivery_date",
+    dataIndex: "date",
   },
   {
     title: "NPWP",
@@ -32,7 +34,7 @@ const columnCard = [
   },
   {
     title: "Alamat Perusahaan",
-    key: "pt_address",
+    key: "business_unit_address",
   },
   {
     title: "Kode Toko",
@@ -40,23 +42,12 @@ const columnCard = [
   },
 ];
 
-const data = {
-  info_pengirim: "87573829923455",
-  dept_code: "24, Butchery",
-  send_to: "Kelapa Gading",
-  no_order: "915003095",
-  tgl_order: "Kamis, 15 Januari 2015, 15:29",
-  tgl_received: "Kamis, 15 Januari 2015, 18:00",
-  npwp: "1115001435",
-  pt_address: "Jl. Lebak bulus No. 8 Gedung Carrefour Kebayoran Lama",
-  store_code: "",
-};
-const CardInfoOrder = () => {
+const CardInfoOrder = ({ data }) => {
   return (
     <div>
       <CardInformation
         title={"Informasi Order"}
-        subTitle={"KELAPA GADING"}
+        subTitle={data?.delivery_to?.toUpperCase()}
         column={columnCard}
         data={data}
       />
