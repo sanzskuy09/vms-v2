@@ -14,6 +14,7 @@ export const URL = {
   LOGIN: "/user/login",
 
   // PO
+  GET_FILTER_PO: "/po/filterpo",
   GET_LIST_PO: "/po/polist",
   GET_ITEM_PO: "/po/itempo",
   GET_DETAIL_PO: "/po/detailPO",
@@ -47,4 +48,5 @@ export const URL = {
   CREATE_SUPP: "/supplier/createSupplier",
   GET_LIST_SUPP: "/supplier/listDataSupplier",
   GET_ITEM_SUPP: "/supplier/itemsupplier",
+  GET_DETAIL_SUPP: "/supplier/detailsupplier",
 };

@@ -6,15 +6,15 @@ import { API, URL } from "@/config/api";
 const columnCard1 = [
   {
     title: "Email",
-    key: "receiver_code",
+    key: "email",
   },
   {
     title: "Telepon Number",
-    key: "dept_code",
+    key: "mobile_number",
   },
   {
     title: "Telepon Fax",
-    key: "no_order",
+    key: "fax",
   },
 ];
 
@@ -52,6 +52,22 @@ const DetailSupplierPage = ({ params }) => {
     }
   };
 
+  const getDetailSupp = async () => {
+    try {
+      setLoading(true);
+      const res = await API.post(URL.GET_DETAIL_SUPP);
+
+      const data = res.data.result.items;
+      const filter = data.filter((item) => item.username === params.id);
+
+      setDataKontak(filter[0]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   // const data = {
   //   receiver_code: " 029-ITC DEPOK",
   //   dept_code: "-Butchery",
@@ -61,6 +77,7 @@ const DetailSupplierPage = ({ params }) => {
 
   useEffect(() => {
     getItemSupp();
+    getDetailSupp();
   }, []);
 
   return (
