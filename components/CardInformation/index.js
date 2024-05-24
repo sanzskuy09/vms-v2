@@ -63,7 +63,16 @@ const CardInformation = ({
                 {column2?.map((e) => (
                   <div className="flex" key={e.key}>
                     <p className="min-w-[40%]">{e.title}</p>
-                    <p>: {data2[e.key] != "" ? data2[e.key] : "-"}</p>
+                    <p>
+                      :{" "}
+                      {data2[e.key] != ""
+                        ? e.dataIndex === "date"
+                          ? dayjs(data[e.key])
+                              .subtract(1, "day")
+                              .format("DD-MM-YYYY")
+                          : data[e.key]
+                        : "-"}
+                    </p>
                   </div>
                 ))}
               </div>

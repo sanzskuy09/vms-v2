@@ -53,7 +53,8 @@ const data2 = {
   tgl_order_ra: "Kamis, 15 Januari 2015, 15:29",
 };
 
-const CardInfoOrder = () => {
+const CardInfoOrder = ({ data }) => {
+  // console.log(data);
   return (
     <div>
       <CardInformation
@@ -62,7 +63,7 @@ const CardInfoOrder = () => {
         data={data}
         title2={"Informasi RA"}
         column2={columnCard2}
-        data2={data2}
+        data2={data}
       />
     </div>
   );

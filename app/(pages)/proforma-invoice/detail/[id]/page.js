@@ -1,11 +1,56 @@
 "use client";
-import React from "react";
+import { useState, useEffect } from "react";
 
 import CardInfoOrder from "./CardInfoOrder";
 import CardInfoSupplier from "./CardInfoSupplier";
 import TableData from "./TableData";
 
+import { API, URL } from "@/config/api";
+
 const DetailPfiPage = ({ params }) => {
+  const [dataItem, setDataItem] = useState([]);
+  const [dataDetail, setDataDetail] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getDetailPFI = async () => {
+    try {
+      setLoading(true);
+      const res = await API.post(URL.GET_DETAIL_PFI, {
+        id: params.id,
+      });
+
+      // console.log(res.data.result.items[0]);
+      const data = res.data.result.items[0];
+      setDataDetail(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const getItemPFI = async () => {
+    try {
+      setLoading(true);
+      const res = await API.get(`${URL.GET_ITEM_PFI}?id=${params.id}`);
+
+      const data = res.data.result.items;
+      setDataItem(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  // console.log(dataItem);
+  // console.log(dataDetail);
+
+  useEffect(() => {
+    getItemPFI();
+    getDetailPFI();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -25,11 +70,11 @@ const DetailPfiPage = ({ params }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <CardInfoOrder />
-        <CardInfoSupplier />
+        <CardInfoOrder data={dataDetail} />
+        <CardInfoSupplier data={dataDetail} />
       </div>
 
-      <TableData />
+      <TableData data={dataItem} loading={loading} />
     </div>
   );
 };

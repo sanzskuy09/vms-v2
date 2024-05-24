@@ -41,32 +41,20 @@ const columns = [
     title: "Dicocokkan",
     dataIndex: "service_level",
     key: "service_level",
-    render: (text) => <p>{text} %</p>,
+    render: (text) => <p> 100.00 %</p>,
   },
   {
     title: "Keterangan",
     dataIndex: "ket",
     key: "ket",
+    render: (text) => <p> {text ? text : "-"}</p>,
   },
 ];
 
-const data = [
-  {
-    product_code: "901822",
-    barcode: "5 kg/202685000000",
-    product_name: "CHICKEN NUGGET 5KG",
-    total_qty: 25,
-    price: 100000,
-    service_level: 100,
-    ket: "N",
-    id: "9074816389098",
-  },
-];
-
-const TableData = () => {
+const TableData = ({ data, loading }) => {
   return (
     <div>
-      <div>Showing : 1 to 10 (95)</div>
+      <div>Showing : 1 to 10 ({data?.length})</div>
       <div className="overflow-auto mt-2">
         <ConfigProvider
           theme={{
@@ -88,7 +76,12 @@ const TableData = () => {
             },
           }}
         >
-          <Table columns={columns} dataSource={data} pagination={false} />
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            loading={loading}
+          />
         </ConfigProvider>
       </div>
       <div className="text-end font-semibold mt-4">

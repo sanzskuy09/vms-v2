@@ -22,7 +22,7 @@ const data = {
   telp: "021-7564823",
 };
 
-const CardInfoSupplier = () => {
+const CardInfoSupplier = ({ data }) => {
   return (
     <div>
       <CardInformation

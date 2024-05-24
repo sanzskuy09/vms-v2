@@ -44,7 +44,7 @@ const columns = [
   {
     title: "Total Qty",
     dataIndex: "qty_per_pack",
-    key: "qty_per_pack",
+    key: "order_qty_insku",
   },
   {
     title: "Harga Unit",

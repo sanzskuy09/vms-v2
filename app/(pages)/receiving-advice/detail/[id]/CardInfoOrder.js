@@ -4,7 +4,7 @@ import CardInformation from "@/components/CardInformation";
 const columnCard = [
   {
     title: "Nomor order",
-    key: "no_order",
+    key: "ref_po_no",
   },
   {
     title: "Tanggal order",
@@ -24,7 +24,7 @@ const columnCard = [
   },
   {
     title: "Kode Penerima ",
-    key: "receiving_code",
+    key: "receiver_code",
   },
 ];
 
@@ -39,21 +39,8 @@ const columnCard2 = [
   },
 ];
 
-const data = {
-  no_order: "915003095",
-  tgl_order: "Kamis, 15 Januari 2015, 15:29",
-  dept_code: 24,
-  order: "064",
-  sent_to: "Supermall Karawaci",
-  receiving_code: "1115001435",
-};
-
-const data2 = {
-  no_order_ra: "915003095",
-  tgl_order_ra: "Kamis, 15 Januari 2015, 15:29",
-};
-
 const CardInfoOrder = ({ data }) => {
+  // console.log(data);
   return (
     <div>
       <CardInformation
@@ -62,7 +49,7 @@ const CardInfoOrder = ({ data }) => {
         data={data}
         title2={"Informasi RA"}
         column2={columnCard2}
-        data2={data2}
+        data2={data}
       />
     </div>
   );

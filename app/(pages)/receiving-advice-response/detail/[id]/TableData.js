@@ -48,61 +48,27 @@ const columns = [
   },
   {
     title: "Revised",
-    dataIndex: "revised",
-    key: "revised",
+    dataIndex: "is_revised",
+    key: "is_revised",
   },
   {
     title: "Service Level",
     dataIndex: "service_level",
     key: "service_level",
-    render: (text) => <p>{text} %</p>,
+    render: (text) => <p>{text} 100.00 %</p>,
   },
   {
     title: "Keterangan",
     dataIndex: "keterangan",
     key: "keterangan",
-  },
-  // {
-  //   title: "Harga Unit",
-  //   dataIndex: "price",
-  //   key: "price",
-  //   render: (text) => <p>{formatToRupiah(text)}</p>,
-  // },
-];
-
-const data = [
-  {
-    product_code: "901822",
-    barcode: "5 kg/202685000000",
-    product_name: "CHICKEN NUGGET 5KG",
-    free: "",
-    qty: 25,
-    qty_pack: 1,
-    total_qty: 25,
-    revised: "N",
-    service_level: 100,
-    keterangan: "",
-    id: "9074816389098",
-  },
-  {
-    product_code: "901822",
-    barcode: "5 kg/202685000000",
-    product_name: "CHICKEN NUGGET 5KG",
-    free: "",
-    qty: 25,
-    qty_pack: 1,
-    total_qty: 25,
-    revised: "N",
-    service_level: 100,
-    keterangan: "",
-    id: "9074816389098",
+    render: (text) => <p>{text ? text : "-"}</p>,
   },
 ];
 
-const TableData = () => {
+const TableData = ({ loading, data }) => {
   return (
     <div>
-      <div>Showing : 1 to 10 (95)</div>
+      <div>Showing : 1 to 10 ({data?.length})</div>
       <div className="overflow-auto mt-2">
         <ConfigProvider
           theme={{
@@ -124,7 +90,12 @@ const TableData = () => {
             },
           }}
         >
-          <Table columns={columns} dataSource={data} pagination={false} />
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            loading={loading}
+          />
         </ConfigProvider>
       </div>
     </div>

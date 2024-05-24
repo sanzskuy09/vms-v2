@@ -16,13 +16,12 @@ const columnCard = [
   },
 ];
 
-const data = {
-  code: "O399",
-  fax: "021-75889355",
-  telp: "021-7564823",
-};
-
-const CardInfoSupplier = () => {
+const CardInfoSupplier = ({ data }) => {
+  const data1 = {
+    code: "O399",
+    fax: "021-75889355",
+    telp: "021-7564823",
+  };
   return (
     <div>
       <CardInformation

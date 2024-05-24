@@ -28,10 +28,10 @@ const columnCard = [
     key: "expected_delivery_date",
     dataIndex: "date",
   },
-  {
-    title: "NPWP",
-    key: "npwp",
-  },
+  // {
+  //   title: "NPWP",
+  //   key: "npwp",
+  // },
   {
     title: "Alamat Perusahaan",
     key: "business_unit_address",

@@ -14,29 +14,33 @@ const columns = [
   },
   {
     title: "Kode Barang",
-    dataIndex: "product_code",
-    key: "product_code",
+    dataIndex: "item_code",
+    key: "item_code",
   },
   {
     title: "Kapasitas/Barcode",
     dataIndex: "barcode",
     key: "barcode",
+    render: (_, render) => (
+      <p>
+        {render.capacity} / {render.barcode}
+      </p>
+    ),
   },
   {
     title: "Nama Barang",
-    dataIndex: "product_name",
-    key: "product_name",
+    dataIndex: "item_name",
+    key: "item_name",
   },
   {
     title: "Gratis",
-    dataIndex: "free",
-    key: "free",
-    render: (text) => <p>0.00</p>,
+    dataIndex: "free_qty_insku",
+    key: "free_qty_insku",
   },
   {
     title: "QTY Dipesan",
-    dataIndex: "order_qty",
-    key: "order_qty",
+    dataIndex: "order_qty_insku",
+    key: "order_qty_insku",
   },
   {
     title: "QTY Konten",
@@ -58,32 +62,14 @@ const columns = [
     title: "Service Level",
     dataIndex: "service_level",
     key: "service_level",
-    render: (text) => <p>100 %</p>,
+    render: (text) => <p>100.00 %</p>,
   },
 ];
 
-const TableData = ({ params }) => {
-  const [data, setData] = useState([]);
-
-  const getItemRA = async () => {
-    try {
-      const res = await API.get(`${URL.GET_ITEM_RA}?id=${params}`);
-
-      // console.log(res);
-      const data = res.data.result.items;
-      setData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getItemRA();
-  }, []);
-
+const TableData = ({ data }) => {
   return (
     <div>
-      <div>Showing : 1 to 10 (95)</div>
+      <div>Showing : 1 to 10 ({data.length})</div>
       <div className="overflow-auto mt-2">
         <ConfigProvider
           theme={{

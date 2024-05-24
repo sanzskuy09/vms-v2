@@ -4,7 +4,7 @@ import CardInformation from "@/components/CardInformation";
 const columnCard = [
   {
     title: "Kode Penerima ",
-    key: "receiving_code",
+    key: "receiver_code",
   },
   {
     title: "Kode Departemen",
@@ -23,28 +23,29 @@ const columnCard = [
 const columnCard2 = [
   {
     title: "Tanggal PFI",
-    key: "tgl_order_pfi",
+    dataIndex: "date",
+    key: "pro_forma_invoice_date",
   },
   {
     title: "Revisi",
     key: "revised",
-    render: (text) => <p>{text}</p>,
+    render: (text) => <p>{text ? text : "0"}</p>,
   },
 ];
 
-const data = {
-  receiving_code: "897655678990 029-ITC DEPOK",
-  dept_code: "24-Butchery",
-  no_order: "915003095",
-  tgl_order: "Kamis, 15 Januari 2015, 15:29",
-};
+const CardInfoOrder = ({ data }) => {
+  const data1 = {
+    receiver_code: data?.receiver_code + " 029-ITC DEPOK",
+    dept_code: data?.dept_code + "-Butchery",
+    no_order: "915003095",
+    tgl_order: "Kamis, 15 Januari 2015, 15:29",
+  };
 
-const data2 = {
-  tgl_order_pfi: "Kamis, 15 Januari 2022, 15:29",
-  revised: 0,
-};
+  const data2 = {
+    tgl_order_pfi: "Kamis, 15 Januari 2022, 15:29",
+    revised: 0,
+  };
 
-const CardInfoOrder = () => {
   return (
     <div>
       <CardInformation
@@ -53,7 +54,7 @@ const CardInfoOrder = () => {
         data={data}
         title2={"Informasi RA"}
         column2={columnCard2}
-        data2={data2}
+        data2={data}
       />
     </div>
   );

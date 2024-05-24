@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [dataPFI, setDataPFI] = useState(0);
   const [dataPFIR, setDataPFIR] = useState(0);
   const [dataINV, setDataINV] = useState(0);
+  const [dataSupplier, setDataSupplier] = useState(0);
 
   const data = [
     {
@@ -45,6 +46,11 @@ const Dashboard = () => {
       title: "Invoice",
       jumlah: dataINV,
       link: "/invoice",
+    },
+    {
+      title: "Supplier",
+      jumlah: dataSupplier,
+      link: "/supplier",
     },
   ];
 
@@ -108,6 +114,16 @@ const Dashboard = () => {
     }
   };
 
+  const getDataSupplier = async () => {
+    try {
+      const res = await API.get(URL.GET_LIST_SUPP);
+      const data = res.data.result;
+      setDataSupplier(data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getDataPO();
     getDataRA();
@@ -115,6 +131,7 @@ const Dashboard = () => {
     getDataPFI();
     getDataPFIR();
     getDataINV();
+    getDataSupplier();
   }, []);
 
   return (

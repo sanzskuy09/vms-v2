@@ -25,13 +25,26 @@ export const URL = {
 
   // RAR
   GET_LIST_RAR: "/rar/rarlist",
+  GET_ITEM_RAR: "/rar/itemrar",
+  GET_DETAIL_RAR: "/rar/detailrar",
 
   // PFI
   GET_LIST_PFI: "/pfi/pfilist",
+  GET_ITEM_PFI: "/pfi/itempfi",
+  GET_DETAIL_PFI: "/pfi/detailpfi",
 
   // PFIR
   GET_LIST_PFIR: "/pfir/pfirlist",
+  GET_ITEM_PFIR: "/pfir/itempfir",
+  GET_DETAIL_PFIR: "/pfir/detailpfir",
 
   // INV
   GET_LIST_INV: "/inv/invlist",
+  GET_ITEM_INV: "/inv/iteminv",
+  GET_DETAIL_INV: "/inv/detailinv",
+
+  // SUPPLIER
+  CREATE_SUPP: "/supplier/createSupplier",
+  GET_LIST_SUPP: "/supplier/listDataSupplier",
+  GET_ITEM_SUPP: "/supplier/itemsupplier",
 };
