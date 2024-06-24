@@ -13,39 +13,55 @@ const columns = [
   },
   {
     title: "Kode Barang",
-    dataIndex: "product_code",
-    key: "product_code",
+    dataIndex: "item_code",
+    key: "item_code",
   },
   {
     title: "Kapasitas/Barcode",
     dataIndex: "barcode",
     key: "barcode",
+    render: (_, render) => (
+      <p>
+        {render.capacity} / {render.barcode}
+      </p>
+    ),
   },
   {
     title: "Nama Barang",
-    dataIndex: "product_name",
-    key: "product_name",
-  },
-  {
-    title: "QTY Order",
-    dataIndex: "qty",
-    key: "qty",
-  },
-  {
-    title: "QTY/Pack",
-    dataIndex: "qty_pack",
-    key: "qty_pack",
+    dataIndex: "item_name",
+    key: "item_name",
   },
   {
     title: "Total Qty",
     dataIndex: "total_qty",
     key: "total_qty",
+    render: (_, render) => <p>{render.invpoi[0].total_qty}</p>,
+  },
+  {
+    title: "Harga sebelum pajak",
+    render: (_, render) => <p>{formatToRupiah(render.invpoi[0].unit_price)}</p>,
+  },
+  {
+    title: "Pajak",
+    dataIndex: "tax_percentage",
+    key: "tax_percentage",
+    render: (_, render) => <p>{render.invpoi[0].tax_percentage}</p>,
+  },
+  {
+    title: "Harga setelah pajak",
+    render: (_, render) => (
+      <p>
+        {formatToRupiah(
+          render.invpoi[0].unit_price * render.invpoi[0].total_qty
+        )}
+      </p>
+    ),
   },
   {
     title: "Harga Unit",
-    dataIndex: "price",
-    key: "price",
-    render: (text) => <p>{formatToRupiah(text)}</p>,
+    dataIndex: "unit_price",
+    key: "unit_price",
+    render: (_, render) => <p>{formatToRupiah(render.invpoi[0].unit_price)}</p>,
   },
 ];
 
@@ -63,6 +79,7 @@ const columns = [
 // ];
 
 const TableData = ({ data, loading }) => {
+  console.log(data);
   return (
     <div>
       <div>Showing : 1 to 10 ({data?.length})</div>

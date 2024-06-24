@@ -13,62 +13,49 @@ const columns = [
   },
   {
     title: "Kode Barang",
-    dataIndex: "product_code",
-    key: "product_code",
+    dataIndex: "item_code",
+    key: "item_code",
   },
   {
     title: "Kapasitas/Barcode",
     dataIndex: "barcode",
     key: "barcode",
+    render: (_, render) => (
+      <p>
+        {render.capacity} / {render.barcode}
+      </p>
+    ),
   },
   {
     title: "Nama Barang",
-    dataIndex: "product_name",
-    key: "product_name",
+    dataIndex: "item_name",
+    key: "item_name",
   },
   {
     title: "Total Qty",
-    dataIndex: "total_qty",
-    key: "total_qty",
+    dataIndex: "received_qty",
+    key: "received_qty",
+    render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
   },
   {
     title: "Diterima",
-    dataIndex: "acc",
-    key: "acc",
+    dataIndex: "is_accepted",
+    key: "is_accepted",
+    render: (_, render) => <p>{render.raipoi[0].raipfii[0].is_accepted}</p>,
   },
   {
     title: "Harga Unit",
-    dataIndex: "price",
-    key: "price",
+    dataIndex: "unit_price",
+    key: "unit_price",
     render: (text) => <p>{formatToRupiah(text)}</p>,
   },
   {
-    title: "Dicocokkan",
-    dataIndex: "service_level",
-    key: "service_level",
-    render: (text) => <p> 100.00 %</p>,
-  },
-  {
     title: "Keterangan",
-    dataIndex: "ket",
-    key: "ket",
+    dataIndex: "remark",
+    key: "remark",
     render: (text) => <p> {text ? text : "-"}</p>,
   },
 ];
-
-// const data = [
-//   {
-//     product_code: "901822",
-//     barcode: "5 kg/202685000000",
-//     product_name: "CHICKEN NUGGET 5KG",
-//     total_qty: 25,
-//     acc: "Y",
-//     price: 100000,
-//     service_level: 100,
-//     ket: "",
-//     id: "9074816389098",
-//   },
-// ];
 
 const TableData = ({ data, loading }) => {
   return (

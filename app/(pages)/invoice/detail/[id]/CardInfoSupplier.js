@@ -4,27 +4,27 @@ import CardInformation from "@/components/CardInformation";
 const columnCard = [
   {
     title: "Kode",
-    key: "code",
+    key: "supplier_code",
   },
   {
     title: "Nama Perusahaan",
-    key: "supp_name",
+    key: "company_name",
   },
   {
     title: "Alamat Perusahaan",
-    key: "supp_address",
+    key: "company_address1",
   },
   {
     title: "Kode Pos",
-    key: "code_pos",
+    key: "postal_code",
   },
   {
     title: "Kota",
-    key: "kota",
+    key: "city",
   },
   {
     title: "Negara",
-    key: "negara",
+    key: "country",
   },
   {
     title: "Nama",
@@ -32,19 +32,15 @@ const columnCard = [
   },
   {
     title: "Telepon",
-    key: "telp",
+    key: "telephone_number",
   },
   {
     title: "Fax",
     key: "fax",
   },
   {
-    title: "NPWP",
-    key: "npwp_supp",
-  },
-  {
     title: "Email",
-    key: "email_supp",
+    key: "email",
   },
 ];
 
@@ -67,7 +63,7 @@ const CardInfoSupplier = ({ data }) => {
     <div>
       <CardInformation
         title={"Informasi Supplier"}
-        subTitle={"JKT MON DELI INDONESIA, PT"}
+        subTitle={data?.company_name}
         column={columnCard}
         data={data}
         showEditButton={true}

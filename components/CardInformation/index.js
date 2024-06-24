@@ -19,6 +19,24 @@ const CardInformation = ({
     );
   }
 
+  function formatIndonesianDate(dateString) {
+    const formattedDate = dayjs(dateString)
+      .subtract(1, "day")
+      .format("DD-MM-YYYY");
+    const [day, month, year] = formattedDate.split("-");
+
+    const date = new Date(year, month - 1, day);
+
+    const options = {
+      weekday: "long", // Full name of the day (e.g., "Minggu")
+      year: "numeric", // Full year (e.g., "2023")
+      month: "long", // Full name of the month (e.g., "Juni")
+      day: "numeric", // Numeric day of the month (e.g., "11")
+    };
+
+    return new Intl.DateTimeFormat("id-ID", options).format(date);
+  }
+
   return (
     <div>
       <div className="bg-secondary p-4 h-[356px]">
@@ -43,15 +61,36 @@ const CardInformation = ({
               <p className="min-w-[40%]">{e.title}</p>
               <p>
                 :{" "}
-                {data[e.key] != ""
+                {e.object
+                  ? data[e.object] && data[e.object][e.key] !== ""
+                    ? e.dataIndex === "date"
+                      ? formatIndonesianDate(data[e.object][e.key])
+                      : data[e.object][e.key]
+                    : "-"
+                  : data[e.key] !== ""
                   ? e.dataIndex === "date"
-                    ? dayjs(data[e.key]).subtract(1, "day").format("DD-MM-YYYY")
+                    ? formatIndonesianDate(data[e.key])
                     : data[e.key]
                   : "-"}
               </p>
             </div>
           ))}
         </div>
+        {/* <div className="px-6">
+          {column?.map((e) => (
+            <div className="flex" key={e.key}>
+              <p className="min-w-[40%]">{e.title}</p>
+              <p>
+                :{" "}
+                {data[e.key] != ""
+                  ? e.dataIndex === "date"
+                    ? formatIndonesianDate(data[e.key])
+                    : data[e.key]
+                  : "-"}
+              </p>
+            </div>
+          ))}
+        </div> */}
 
         {title2 ? (
           <div className="mt-6">
@@ -67,9 +106,7 @@ const CardInformation = ({
                       :{" "}
                       {data2[e.key] != ""
                         ? e.dataIndex === "date"
-                          ? dayjs(data[e.key])
-                              .subtract(1, "day")
-                              .format("DD-MM-YYYY")
+                          ? formatIndonesianDate(data[e.key])
                           : data[e.key]
                         : "-"}
                     </p>

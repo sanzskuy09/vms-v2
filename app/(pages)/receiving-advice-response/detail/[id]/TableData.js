@@ -13,43 +13,45 @@ const columns = [
   },
   {
     title: "Kode Barang",
-    dataIndex: "product_code",
-    key: "product_code",
+    dataIndex: "item_code",
+    key: "item_code",
   },
   {
     title: "Kapasitas/Barcode",
     dataIndex: "barcode",
     key: "barcode",
+    render: (_, render) => (
+      <p>
+        {render.capacity} / {render.barcode}
+      </p>
+    ),
   },
   {
     title: "Nama Barang",
-    dataIndex: "product_name",
-    key: "product_name",
+    dataIndex: "item_name",
+    key: "item_name",
   },
   {
     title: "Gratis",
-    dataIndex: "free",
-    key: "free",
+    dataIndex: "free_qty_insku",
+    key: "free_qty_insku",
   },
   {
     title: "QTY Dipesan",
-    dataIndex: "qty",
-    key: "qty",
-  },
-  {
-    title: "QTY Konten",
-    dataIndex: "qty_pack",
-    key: "qty_pack",
+    dataIndex: "order_qty_insku",
+    key: "order_qty_insku",
   },
   {
     title: "Total Diterima",
-    dataIndex: "total_qty",
-    key: "total_qty",
+    dataIndex: "received_qty",
+    key: "received_qty",
+    render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
   },
   {
     title: "Revised",
     dataIndex: "is_revised",
     key: "is_revised",
+    render: (_, render) => <p>{render.raipoi[0].is_revised}</p>,
   },
   {
     title: "Service Level",

@@ -4,38 +4,45 @@ import CardInformation from "@/components/CardInformation";
 const columnCard = [
   {
     title: "Nomor order",
-    key: "no_order",
+    object: "po",
+    key: "po_no",
   },
   {
     title: "Tanggal order",
-    key: "tgl_order",
+    object: "po",
+    key: "order_date",
+    dataIndex: "date",
   },
   {
     title: "Kode Departemen",
+    object: "po",
     key: "dept_code",
   },
   {
     title: "Kelompok Pemesanan",
-    key: "order",
+    object: "po",
+    key: "store_code",
   },
   {
     title: "Pengiriman Ke",
-    key: "sent_to",
+    key: "delivery_to",
+    object: "po",
   },
   {
     title: "Kode Penerima ",
-    key: "receiving_code",
+    key: "receiver_code",
   },
 ];
 
 const columnCard2 = [
   {
-    title: "Nomor order",
-    key: "no_order_ra",
+    title: "Nomor ra",
+    key: "receiving_advice_number",
   },
   {
-    title: "Tanggal order",
-    key: "tgl_order_ra",
+    title: "Tanggal ra",
+    dataIndex: "date",
+    key: "receiving_advice_date",
   },
 ];
 

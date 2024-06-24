@@ -43,20 +43,16 @@ const columns = [
     key: "order_qty_insku",
   },
   {
-    title: "QTY Konten",
-    dataIndex: "qty_pack",
-    key: "qty_pack",
-    render: (text) => <p>{text ? text : "-"}</p>,
-  },
-  {
     title: "Total Diterima",
     dataIndex: "received_qty",
     key: "received_qty",
+    render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
   },
   {
     title: "Revised",
     dataIndex: "is_revised",
     key: "is_revised",
+    render: (_, render) => <p>N</p>,
   },
   {
     title: "Service Level",

@@ -4,15 +4,18 @@ import CardInformation from "@/components/CardInformation";
 const columnCard = [
   {
     title: "Kode",
-    key: "code",
+    object: "po",
+    key: "supplier_code",
   },
   {
     title: "Fax",
-    key: "fax",
+    object: "po",
+    key: "supplier_fax_number",
   },
   {
     title: "Telepon",
-    key: "telp",
+    object: "po",
+    key: "supplier_phone",
   },
 ];
 
@@ -27,7 +30,7 @@ const CardInfoSupplier = ({ data }) => {
     <div>
       <CardInformation
         title={"Informasi Supplier"}
-        subTitle={"JKT MON DELI INDONESIA, PT"}
+        subTitle={data?.po?.supplier_name}
         column={columnCard}
         data={data}
         title2={"Note : Confirmed Order"}

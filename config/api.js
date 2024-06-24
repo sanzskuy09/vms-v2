@@ -18,31 +18,39 @@ export const URL = {
   GET_LIST_PO: "/po/polist",
   GET_ITEM_PO: "/po/itempo",
   GET_DETAIL_PO: "/po/detailPO",
+  ACCEPT_PO: "/po/acceptedpo",
 
   // RA
   GET_LIST_RA: "/ra/ralist",
   GET_ITEM_RA: "/ra/itemra",
   GET_DETAIL_RA: "/ra/detailra",
+  ACCEPT_RA: "/ra/acceptedra",
 
   // RAR
   GET_LIST_RAR: "/rar/rarlist",
   GET_ITEM_RAR: "/rar/itemrar",
   GET_DETAIL_RAR: "/rar/detailrar",
+  ACCEPT_RAR: "/rar/actionAcceptReject",
+  CANCEL_RAR: "/rar/actionRar",
 
   // PFI
   GET_LIST_PFI: "/pfi/pfilist",
   GET_ITEM_PFI: "/pfi/itempfi",
   GET_DETAIL_PFI: "/pfi/detailpfi",
+  ACCEPT_REJECT_PFI: "/pfi/acceptedpfi",
 
   // PFIR
   GET_LIST_PFIR: "/pfir/pfirlist",
   GET_ITEM_PFIR: "/pfir/itempfir",
   GET_DETAIL_PFIR: "/pfir/detailpfir",
+  ACCEPT_PFIR: "/pfir/actionAcceptReject",
+  CANCEL_PFIR: "/pfir/actionPfir",
 
   // INV
   GET_LIST_INV: "/inv/invlist",
   GET_ITEM_INV: "/inv/iteminv",
   GET_DETAIL_INV: "/inv/detailinv",
+  ACCEPT_INV: "/inv/actionSend",
 
   // SUPPLIER
   CREATE_SUPP: "/supplier/createSupplier",

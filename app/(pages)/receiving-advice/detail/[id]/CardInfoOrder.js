@@ -1,26 +1,33 @@
 import React from "react";
 import CardInformation from "@/components/CardInformation";
+import dayjs from "dayjs";
 
 const columnCard = [
   {
     title: "Nomor order",
-    key: "ref_po_no",
+    object: "rapo",
+    key: "po_no",
   },
   {
     title: "Tanggal order",
-    key: "tgl_order",
+    object: "rapo",
+    key: "order_date",
+    dataIndex: "date",
   },
   {
     title: "Kode Departemen",
+    object: "rapo",
     key: "dept_code",
   },
   {
     title: "Kelompok Pemesanan",
-    key: "order",
+    object: "rapo",
+    key: "store_code",
   },
   {
     title: "Pengiriman Ke",
-    key: "sent_to",
+    key: "delivery_to",
+    object: "rapo",
   },
   {
     title: "Kode Penerima ",
@@ -30,12 +37,13 @@ const columnCard = [
 
 const columnCard2 = [
   {
-    title: "Nomor order",
-    key: "no_order_ra",
+    title: "Nomor ra",
+    key: "receiving_advice_number",
   },
   {
-    title: "Tanggal order",
-    key: "tgl_order_ra",
+    title: "Tanggal ra",
+    dataIndex: "date",
+    key: "receiving_advice_date",
   },
 ];
 

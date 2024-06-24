@@ -4,35 +4,34 @@ import CardInformation from "@/components/CardInformation";
 const columnCard = [
   {
     title: "Nomor order",
-    key: "no_order",
+    object: "po",
+    key: "po_no",
   },
   {
     title: "Tanggal order",
-    key: "tgl_order",
+    object: "po",
+    key: "order_date",
+    dataIndex: "date",
   },
   {
     title: "Kode Departemen",
+    object: "po",
     key: "dept_code",
   },
   {
     title: "Toko Transmart",
-    key: "store",
+    object: "po",
+    key: "store_code",
   },
   {
     title: "Nama Perusahaan",
-    key: "pt_name",
-  },
-  {
-    title: "Tanggal Penerimaan",
-    key: "tgl_received",
+    object: "po",
+    key: "business_unit_name",
   },
   {
     title: "Alamat Perusahaan",
-    key: "address_store",
-  },
-  {
-    title: "NPWP",
-    key: "npwp_store",
+    object: "po",
+    key: "business_unit_address",
   },
 ];
 
