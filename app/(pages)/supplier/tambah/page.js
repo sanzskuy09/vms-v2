@@ -13,10 +13,10 @@ const TambahSupplierPage = () => {
 
   const handleSubmit = async (e) => {
     try {
-      const res = await API.post(URL.CREATE_SUPP, e);
+      // const res = await API.post(URL.CREATE_SUPP, e);
 
       toastSuccess("Create Supplier Success");
-      router.push("/supplier");
+      // router.push("/supplier");
     } catch (error) {
       console.log(error);
       toastFailed("Create Supplier Failed");
@@ -46,7 +46,7 @@ const TambahSupplierPage = () => {
         >
           <Form
             name="basic"
-            labelAlign="left"
+            // labelAlign="left"
             labelWrap
             // layout="vertical"
             onFinish={handleSubmit}
@@ -55,13 +55,78 @@ const TambahSupplierPage = () => {
             labelCol={{
               span: 6,
             }}
-            // wrapperCol={{
-            //   span: 18,
-            // }}
+            colon={false}
+            wrapperCol={{
+              span: 18,
+            }}
             // className="w-1/2"
           >
             <div className="grid grid-cols-2 gap-8">
+              {/* left side */}
               <div>
+                <div className="flex gap-4">
+                  <Form.Item
+                    label="Username"
+                    name="username"
+                    labelCol={{ span: 13 }}
+                    // wrapperCol={{
+                    //   span: 7,
+                    // }}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input username!",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="username" size="large" />
+                  </Form.Item>
+
+                  <Form.Item
+                    label="Kode Supplier"
+                    name="supplier_code"
+                    labelCol={{ span: 12, offset: 1 }}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input kode supplier!",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="kode supplier" size="large" />
+                  </Form.Item>
+                </div>
+
+                <div className="flex gap-4">
+                  <Form.Item
+                    label="Role"
+                    name="role"
+                    // labelCol={{ span: 14 }}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input role!",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="role" size="large" />
+                  </Form.Item>
+
+                  <Form.Item
+                    label="Nama Role"
+                    name="role_name"
+                    // labelCol={{ span: 12, offset: 1 }}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input kode nama role!",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="role name" size="large" />
+                  </Form.Item>
+                </div>
+
                 <Form.Item
                   label="Kode Supplier/ username"
                   name="username"

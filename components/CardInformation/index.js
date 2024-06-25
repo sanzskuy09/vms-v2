@@ -12,6 +12,8 @@ const CardInformation = ({
   column2,
   data2,
   showEditButton = false,
+  showEditInvButton = false,
+  styleWrapper,
 }) => {
   if (!data || typeof data !== "object") {
     throw new Error(
@@ -39,7 +41,7 @@ const CardInformation = ({
 
   return (
     <div>
-      <div className="bg-secondary p-4 h-[356px]">
+      <div className={`bg-secondary p-4 h-[356px] ${styleWrapper}`}>
         <div className="flex justify-between">
           <div>
             <h2 className="font-bold mb-2">{title}</h2>
@@ -53,12 +55,20 @@ const CardInformation = ({
               </button>
             </div>
           )}
+
+          {showEditInvButton && (
+            <div>
+              <button className="py-2 px-4 bg-primary rounded-md text-white text-sm">
+                Edit Invoice
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="px-6">
           {column?.map((e) => (
             <div className="flex" key={e.key}>
-              <p className="min-w-[40%]">{e.title}</p>
+              <p className="min-w-[50%]">{e.title}</p>
               <p>
                 :{" "}
                 {e.object

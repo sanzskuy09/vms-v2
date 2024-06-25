@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 import CardInfoOrder from "./CardInfoOrder";
 import CardInfoSupplier from "./CardInfoSupplier";
+import CardDetailInvoice from "./CardDetailInvoice";
 import TableData from "./TableData";
 
 import { formatToRupiah } from "@/utils/FormatCurrency";
@@ -18,6 +19,8 @@ import { API, URL } from "@/config/api";
 const DetailPoPage = ({ params }) => {
   const router = useRouter();
   const emailUser = localStorage.getItem("email");
+
+  const [upload, setUpload] = useState(false);
 
   const [dataItem, setDataItem] = useState([]);
   const [dataDetail, setDataDetail] = useState([]);
@@ -121,6 +124,92 @@ const DetailPoPage = ({ params }) => {
       <div className="grid grid-cols-2 gap-4 mb-4">
         <CardInfoOrder data={dataDetail} />
         <CardInfoSupplier data={dataDetail} />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <CardDetailInvoice data={dataDetail} />
+
+        <div className={`bg-secondary p-4 h-[240px] `}>
+          <h2 className="font-bold mb-2">Berkas Faktur Pajak</h2>
+        </div>
+      </div>
+
+      <div className={`bg-secondary p-4 mb-4`}>
+        <h2 className="font-bold mb-4">Berkas Dokumen Pendukung</h2>
+
+        <table className="w-full table-fixed border-collapse border border-black">
+          <tr>
+            <td className="border border-black py-4 px-8">Surat jalan</td>
+            <td className="border border-black py-4 text-center">
+              {!upload ? (
+                <button
+                  type="button"
+                  className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                >
+                  Upload File
+                </button>
+              ) : (
+                <p className="text-primary">CTRI000000001.pdf</p>
+              )}
+            </td>
+            <td className="border border-black py-4 text-center">
+              <button
+                type="button"
+                className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+              >
+                Hapus
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td className="border border-black py-4 px-8">Invoice</td>
+            <td className="border border-black py-4 text-center">
+              {!upload ? (
+                <button
+                  type="button"
+                  className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                >
+                  Upload File
+                </button>
+              ) : (
+                <p className="text-primary">CTRI000000001.pdf</p>
+              )}
+            </td>
+            <td className="border border-black py-4 text-center">
+              <button
+                type="button"
+                className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+              >
+                Hapus
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td className="border border-black py-4 px-8">Kwitansi</td>
+            <td className="border border-black py-4 text-center">
+              {!upload ? (
+                <button
+                  type="button"
+                  className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                >
+                  Upload File
+                </button>
+              ) : (
+                <p className="text-primary">CTRI000000001.pdf</p>
+              )}
+            </td>
+            <td className="border border-black py-4 text-center">
+              <button
+                type="button"
+                className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+              >
+                Hapus
+              </button>
+            </td>
+          </tr>
+        </table>
       </div>
 
       <TableData data={dataItem} loading={loading} />
