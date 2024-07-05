@@ -9,8 +9,11 @@ import TableData from "./TableData";
 
 import { formatToRupiah } from "@/utils/FormatCurrency";
 
-import { Modal } from "antd";
+import { Modal, Upload, Button, message, Input } from "antd";
 const { confirm } = Modal;
+
+import { UploadOutlined } from "@ant-design/icons";
+
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { toastFailed, toastSuccess } from "@/utils/toastify";
 
@@ -25,6 +28,92 @@ const DetailPoPage = ({ params }) => {
   const [dataItem, setDataItem] = useState([]);
   const [dataDetail, setDataDetail] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [fileName, setFileName] = useState("");
+  const [uploading, setUploading] = useState(false);
+
+  const handleChange = (info) => {
+    if (info.file.status === "uploading") {
+      setUploading(true);
+      setFileName(info.file);
+    }
+
+    console.log(info.file.status, " >> status");
+    if (info.file.status === "done") {
+      setUploading(false);
+      // const { filePath } = info.file.response;
+      console.log(`${info.file.name} file uploaded successfully to `);
+    } else if (info.file.status === "error") {
+      setUploading(false);
+      console.error(`${info.file.name} file upload failed.`);
+    }
+  };
+
+  const customRequest = async ({ file, onSuccess, onError }) => {
+    const formData = new FormData();
+    formData.append("namafile", file);
+    // formData.append("filename", file.name);
+
+    console.log(file, "file");
+
+    try {
+      const response = await fetch(
+        "http://localhost:3001/vmsdev/inv/uploadSuratJalan?supplier_code=8330&purchase_order=CTRI000000000024",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (!response.ok) {
+        throw new Error("File upload failed");
+      }
+      const data = await response.json();
+      onSuccess(data);
+      toastSuccess("file berhasil diupload");
+    } catch (error) {
+      onError(error);
+      toastFailed("file gagal diupload");
+    }
+  };
+
+  const props = {
+    name: "file",
+    listType: "picture",
+    multiple: false,
+    beforeUpload: () => {
+      return false;
+    },
+    async onChange(info) {
+      try {
+        if (info.file.status !== "uploading") {
+          let reader = new FileReader();
+          reader.readAsDataURL(info.file);
+          setFileName(info.file);
+
+          const formData = new FormData();
+          formData.append("namafile", info.file);
+
+          const response = await fetch(
+            "http://localhost:3001/vmsdev/inv/uploadSuratJalan?supplier_code=8330&purchase_order=CTRI000000000024",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          if (!response.ok) {
+            throw new Error("File upload failed");
+          }
+          // onSuccess(data);
+          toastSuccess("file berhasil diupload");
+        }
+      } catch (error) {
+        console.error(error);
+        toastFailed("file gagal diupload");
+      }
+    },
+  };
+
+  console.log(fileName, " >> filename");
 
   const getDetailINV = async () => {
     try {
@@ -129,8 +218,24 @@ const DetailPoPage = ({ params }) => {
       <div className="grid grid-cols-2 gap-4 mb-4">
         <CardDetailInvoice data={dataDetail} />
 
-        <div className={`bg-secondary p-4 h-[240px] `}>
+        <div className={`bg-secondary p-4 h-[240px]`}>
           <h2 className="font-bold mb-2">Berkas Faktur Pajak</h2>
+
+          {/* <div style={{ display: "flex", alignItems: "center" }}>
+            <Upload
+              showUploadList={false}
+              beforeUpload={() => false} // Prevent automatic upload
+              onChange={handleChange}
+            >
+              <Button icon={<UploadOutlined />}>Choose File</Button>
+            </Upload>
+            <Input
+              style={{ marginLeft: 10, width: 300 }}
+              placeholder="No file chosen"
+              value={fileName}
+              readOnly
+            />
+          </div> */}
         </div>
       </div>
 
@@ -142,12 +247,43 @@ const DetailPoPage = ({ params }) => {
             <td className="border border-black py-4 px-8">Surat jalan</td>
             <td className="border border-black py-4 text-center">
               {!upload ? (
-                <button
-                  type="button"
-                  className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
-                >
-                  Upload File
-                </button>
+                // <button
+                //   type="button"
+                //   className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                // >
+                //   Upload File
+                // </button>
+                <>
+                  <Upload
+                    // customRequest={customRequest}
+                    // showUploadList={false}
+                    // onChange={handleChange}
+                    {...props}
+                  >
+                    {/* <Button icon={<UploadOutlined />}>Upload File</Button> */}
+                    <button
+                      type="button"
+                      className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                    >
+                      Upload File
+                    </button>
+                  </Upload>
+                  {/* <Upload
+                    customRequest={customRequest}
+                    showUploadList={false}
+                    onChange={handleChange}
+                  >
+                    <Button icon={<UploadOutlined />} loading={uploading}>
+                      Choose File
+                    </Button>
+                  </Upload>
+                  <Input
+                    style={{ marginLeft: 10, width: 300 }}
+                    placeholder="No file chosen"
+                    value={fileName}
+                    readOnly
+                  /> */}
+                </>
               ) : (
                 <p className="text-primary">CTRI000000001.pdf</p>
               )}
