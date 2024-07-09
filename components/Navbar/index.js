@@ -60,7 +60,7 @@ const Navbar = () => {
           </Link>
 
           <div className="flex items-center gap-4">
-            <Link href="/profile">
+            <Link href="/supplier">
               <Image src={ICON.IC_PROFILE} alt="item1" />
             </Link>
 
