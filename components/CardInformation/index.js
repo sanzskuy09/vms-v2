@@ -14,6 +14,9 @@ const CardInformation = ({
   showEditButton = false,
   showEditInvButton = false,
   styleWrapper,
+  editSuppButtonAction,
+  editInvButtonAction,
+  openModal = false,
 }) => {
   if (!data || typeof data !== "object") {
     throw new Error(
@@ -30,10 +33,10 @@ const CardInformation = ({
     const date = new Date(year, month - 1, day);
 
     const options = {
-      weekday: "long", // Full name of the day (e.g., "Minggu")
-      year: "numeric", // Full year (e.g., "2023")
-      month: "long", // Full name of the month (e.g., "Juni")
-      day: "numeric", // Numeric day of the month (e.g., "11")
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     };
 
     return new Intl.DateTimeFormat("id-ID", options).format(date);
@@ -41,7 +44,11 @@ const CardInformation = ({
 
   return (
     <div>
-      <div className={`bg-secondary p-4 h-[356px] ${styleWrapper}`}>
+      <div
+        className={`bg-secondary p-4 min-h-min ${
+          styleWrapper ? styleWrapper : "h-[364px]"
+        }`}
+      >
         <div className="flex justify-between">
           <div>
             <h2 className="font-bold mb-2">{title}</h2>
@@ -50,7 +57,10 @@ const CardInformation = ({
 
           {showEditButton && (
             <div>
-              <button className="py-2 px-4 bg-primary rounded-md text-white text-sm">
+              <button
+                onClick={editSuppButtonAction}
+                className="py-2 px-4 bg-primary rounded-md text-white text-sm"
+              >
                 Edit Supplier
               </button>
             </div>
@@ -58,7 +68,10 @@ const CardInformation = ({
 
           {showEditInvButton && (
             <div>
-              <button className="py-2 px-4 bg-primary rounded-md text-white text-sm">
+              <button
+                onClick={editInvButtonAction}
+                className="py-2 px-4 bg-primary rounded-md text-white text-sm"
+              >
                 Edit Invoice
               </button>
             </div>

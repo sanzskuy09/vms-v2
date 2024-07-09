@@ -52,6 +52,8 @@ export const URL = {
   GET_ITEM_INV: "/inv/iteminv",
   GET_DETAIL_INV: "/inv/detailinv",
   ACCEPT_INV: "/inv/actionSend",
+  ACTION_SAVE_SUPP: "/inv/actionSaveInfoSupp",
+  ACTION_SAVE_INV: "/inv/actionSaveDetailInv",
 
   // SUPPLIER
   CREATE_SUPP: "/supplier/createSupplier",

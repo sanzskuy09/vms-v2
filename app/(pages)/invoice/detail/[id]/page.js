@@ -29,7 +29,7 @@ const DetailPoPage = ({ params }) => {
   const [uploadSJ, setUploadSJ] = useState(false);
   const [uploadINV, setUploadINV] = useState(false);
   const [uploadKWI, setUploadKWI] = useState(false);
-  const [uploadTAX, setUploadTAX] = useState(true);
+  const [uploadTAX, setUploadTAX] = useState(false);
 
   const [dataItem, setDataItem] = useState([]);
   const [dataDetail, setDataDetail] = useState([]);
@@ -270,7 +270,7 @@ const DetailPoPage = ({ params }) => {
             setUploadKWI(false);
           } else if (e[1] === "TAX") {
             await API.delete(`${URL.DELETE_TAX}?filename=TAX_${e[0]}.pdf`);
-            setUploadKWI(false);
+            setUploadTAX(false);
           }
 
           toastSuccess("File berhasil dihapus");
@@ -374,9 +374,9 @@ const DetailPoPage = ({ params }) => {
           >
             Kirim
           </button>
-          <button className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80">
+          {/* <button className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80">
             Batalkan Invoice
-          </button>
+          </button> */}
         </div>
       </div>
 
