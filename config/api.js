@@ -14,6 +14,7 @@ export const URL = {
   LOGIN: "/user/login",
 
   // PO
+  CREATE_PO: "/po/createPO",
   GET_FILTER_PO: "/po/filterpo",
   GET_LIST_PO: "/po/polist",
   GET_ITEM_PO: "/po/itempo",
@@ -57,4 +58,20 @@ export const URL = {
   GET_LIST_SUPP: "/supplier/listDataSupplier",
   GET_ITEM_SUPP: "/supplier/itemsupplier",
   GET_DETAIL_SUPP: "/supplier/detailsupplier",
+  EDIT_SUPP: "/supplier/editUserSupplier",
+
+  // PROFILE
+  GET_PROFILE: "/profile/getProfile",
+
+  // UPLOAD
+  DOWNLOAD_FILE: "/inv/download",
+  UPLOAD_SURAT_JALAN: "/inv/uploadSuratJalan",
+  UPLOAD_INV: "/inv/uploadInv",
+  UPLOAD_KWITANSI: "/inv/uploadKwitansi",
+  UPLOAD_TAX: "/inv/uploadTaxInv",
+
+  DELETE_SURAT_JALAN: "/inv/deleteSuratJalan",
+  DELETE_INV: "/inv/deleteInv",
+  DELETE_KWITANSI: "/inv/deleteKwitansi",
+  DELETE_TAX: "/inv/deleteTaxInv",
 };

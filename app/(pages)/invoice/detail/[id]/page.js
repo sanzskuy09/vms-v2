@@ -13,17 +13,23 @@ import { Modal, Upload, Button, message, Input } from "antd";
 const { confirm } = Modal;
 
 import { UploadOutlined } from "@ant-design/icons";
+import ICON_PDF from "@/assets/icon/ic_pdf.svg";
+import ICON_UPLOAD from "@/assets/icon/ic_upload.svg";
 
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { toastFailed, toastSuccess } from "@/utils/toastify";
 
-import { API, URL } from "@/config/api";
+import { API, URL, BASE_URL } from "@/config/api";
+import Image from "next/image";
 
 const DetailPoPage = ({ params }) => {
   const router = useRouter();
   const emailUser = localStorage.getItem("email");
 
-  const [upload, setUpload] = useState(false);
+  const [uploadSJ, setUploadSJ] = useState(false);
+  const [uploadINV, setUploadINV] = useState(false);
+  const [uploadKWI, setUploadKWI] = useState(false);
+  const [uploadTAX, setUploadTAX] = useState(true);
 
   const [dataItem, setDataItem] = useState([]);
   const [dataDetail, setDataDetail] = useState([]);
@@ -64,10 +70,13 @@ const DetailPoPage = ({ params }) => {
           body: formData,
         }
       );
+
       if (!response.ok) {
         throw new Error("File upload failed");
       }
+
       const data = await response.json();
+
       onSuccess(data);
       toastSuccess("file berhasil diupload");
     } catch (error) {
@@ -76,7 +85,8 @@ const DetailPoPage = ({ params }) => {
     }
   };
 
-  const props = {
+  // Upload Surat Jalan
+  const propsSuratJalan = {
     name: "file",
     listType: "picture",
     multiple: false,
@@ -93,18 +103,19 @@ const DetailPoPage = ({ params }) => {
           const formData = new FormData();
           formData.append("namafile", info.file);
 
-          const response = await fetch(
-            "http://localhost:3001/vmsdev/inv/uploadSuratJalan?supplier_code=8330&purchase_order=CTRI000000000024",
-            {
-              method: "POST",
-              body: formData,
-            }
+          const config = {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          };
+
+          await API.post(
+            `${URL.UPLOAD_SURAT_JALAN}?supplier_code=${dataDetail?.supplier_code}&purchase_order=${dataDetail?.po?.id}`,
+            formData,
+            config
           );
-          if (!response.ok) {
-            throw new Error("File upload failed");
-          }
-          // onSuccess(data);
           toastSuccess("file berhasil diupload");
+          setUploadSJ(true);
         }
       } catch (error) {
         console.error(error);
@@ -113,7 +124,168 @@ const DetailPoPage = ({ params }) => {
     },
   };
 
-  console.log(fileName, " >> filename");
+  // Upload Invoice
+  const propsInv = {
+    name: "file",
+    listType: "picture",
+    multiple: false,
+    beforeUpload: () => {
+      return false;
+    },
+    async onChange(info) {
+      try {
+        if (info.file.status !== "uploading") {
+          let reader = new FileReader();
+          reader.readAsDataURL(info.file);
+          setFileName(info.file);
+
+          const formData = new FormData();
+          formData.append("namafile", info.file);
+
+          const config = {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          };
+
+          await API.post(
+            `${URL.UPLOAD_INV}?supplier_code=${dataDetail?.supplier_code}&purchase_order=${dataDetail?.po?.id}`,
+            formData,
+            config
+          );
+          toastSuccess("file berhasil diupload");
+          setUploadINV(true);
+        }
+      } catch (error) {
+        console.error(error);
+        toastFailed("file gagal diupload");
+      }
+    },
+  };
+
+  // Upload Kwitansi
+  const propsKwitansi = {
+    name: "file",
+    listType: "picture",
+    multiple: false,
+    beforeUpload: () => {
+      return false;
+    },
+    async onChange(info) {
+      try {
+        if (info.file.status !== "uploading") {
+          let reader = new FileReader();
+          reader.readAsDataURL(info.file);
+          setFileName(info.file);
+
+          const formData = new FormData();
+          formData.append("namafile", info.file);
+
+          const config = {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          };
+
+          await API.post(
+            `${URL.UPLOAD_KWITANSI}?supplier_code=${dataDetail?.supplier_code}&purchase_order=${dataDetail?.po?.id}`,
+            formData,
+            config
+          );
+          toastSuccess("file berhasil diupload");
+          setUploadKWI(true);
+        }
+      } catch (error) {
+        console.error(error);
+        toastFailed("file gagal diupload");
+      }
+    },
+  };
+
+  // Upload TAX
+  const propsTax = {
+    name: "file",
+    listType: "picture",
+    multiple: false,
+    beforeUpload: () => {
+      return false;
+    },
+    async onChange(info) {
+      try {
+        if (info.file.status !== "uploading") {
+          let reader = new FileReader();
+          reader.readAsDataURL(info.file);
+          setFileName(info.file);
+
+          const formData = new FormData();
+          formData.append("namafile", info.file);
+          formData.append("id", dataDetail?.id);
+
+          const config = {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          };
+
+          await API.post(
+            `${URL.UPLOAD_TAX}?supplier_code=${dataDetail?.supplier_code}&purchase_order=${dataDetail?.po?.id}`,
+            formData,
+            config
+          );
+          toastSuccess("file berhasil diupload");
+          setUploadTAX(true);
+        }
+      } catch (error) {
+        console.error(error);
+        toastFailed("file gagal diupload");
+      }
+    },
+  };
+
+  // hapus Dokumen
+  const handleDeleteDokumen = async (e) => {
+    confirm({
+      title: "Kamu yakin ingin menghapus data ini?",
+      icon: <ExclamationCircleFilled />,
+      centered: true,
+      // content: "Some descriptions",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      async onOk() {
+        try {
+          setLoading(true);
+          console.log(e, " data e");
+
+          if (e[1] === "DO") {
+            await API.delete(
+              `${URL.DELETE_SURAT_JALAN}?filename=DO_${e[0]}.pdf`
+            );
+            setUploadSJ(false);
+          } else if (e[1] === "INV") {
+            await API.delete(`${URL.DELETE_INV}?filename=INVS_${e[0]}.pdf`);
+            setUploadKWI(false);
+          } else if (e[1] === "RCP") {
+            await API.delete(`${URL.DELETE_KWITANSI}?filename=RCP_${e[0]}.pdf`);
+            setUploadKWI(false);
+          } else if (e[1] === "TAX") {
+            await API.delete(`${URL.DELETE_TAX}?filename=TAX_${e[0]}.pdf`);
+            setUploadKWI(false);
+          }
+
+          toastSuccess("File berhasil dihapus");
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+          toastFailed("file gagal dihapus");
+          setLoading(false);
+        }
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
 
   const getDetailINV = async () => {
     try {
@@ -125,6 +297,7 @@ const DetailPoPage = ({ params }) => {
       // console.log(res.data);
       const data = res.data.result.items[0];
       setDataDetail(data);
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -181,9 +354,6 @@ const DetailPoPage = ({ params }) => {
     });
   };
 
-  // console.log(dataItem);
-  // console.log(dataDetail);
-
   useEffect(() => {
     getItemINV();
     getDetailINV();
@@ -221,21 +391,54 @@ const DetailPoPage = ({ params }) => {
         <div className={`bg-secondary p-4 h-[240px]`}>
           <h2 className="font-bold mb-2">Berkas Faktur Pajak</h2>
 
-          {/* <div style={{ display: "flex", alignItems: "center" }}>
-            <Upload
-              showUploadList={false}
-              beforeUpload={() => false} // Prevent automatic upload
-              onChange={handleChange}
-            >
-              <Button icon={<UploadOutlined />}>Choose File</Button>
-            </Upload>
-            <Input
-              style={{ marginLeft: 10, width: 300 }}
-              placeholder="No file chosen"
-              value={fileName}
-              readOnly
-            />
-          </div> */}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {!uploadTAX ? (
+              <Upload
+                listType="picture"
+                beforeUpload={() => false}
+                style={{ width: "100%" }}
+                {...propsTax}
+              >
+                <button className="bg-[#ECE8E8] border-dashed border-2 border-black px-16 py-8 font-medium shadow-lg rounded-lg flex flex-col justify-center items-center underline">
+                  <Image
+                    src={ICON_UPLOAD}
+                    alt="upload-icon"
+                    width={22}
+                    height={22}
+                  />
+                  Choose File
+                </button>
+                <p className="text-sm mt-1">Max Size : 2 MB</p>
+              </Upload>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <a
+                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=TAX_${dataDetail?.po?.id}.pdf`}
+                  className="bg-[#D9D9D9] py-4 px-8 rounded-md flex items-center gap-2"
+                >
+                  <Image
+                    src={ICON_PDF}
+                    alt="download-icon"
+                    width={22}
+                    height={22}
+                  />
+                  {`TAX_${dataDetail?.po?.id}.pdf`}
+                </a>
+
+                <div>
+                  <button
+                    type="button"
+                    className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                    onClick={() =>
+                      handleDeleteDokumen([dataDetail?.po?.id, "TAX"])
+                    }
+                  >
+                    Hapus
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -246,21 +449,15 @@ const DetailPoPage = ({ params }) => {
           <tr>
             <td className="border border-black py-4 px-8">Surat jalan</td>
             <td className="border border-black py-4 text-center">
-              {!upload ? (
-                // <button
-                //   type="button"
-                //   className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
-                // >
-                //   Upload File
-                // </button>
+              {!uploadSJ ? (
                 <>
                   <Upload
+                    beforeUpload={() => false}
                     // customRequest={customRequest}
-                    // showUploadList={false}
                     // onChange={handleChange}
-                    {...props}
+                    showUploadList={false}
+                    {...propsSuratJalan}
                   >
-                    {/* <Button icon={<UploadOutlined />}>Upload File</Button> */}
                     <button
                       type="button"
                       className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
@@ -268,30 +465,21 @@ const DetailPoPage = ({ params }) => {
                       Upload File
                     </button>
                   </Upload>
-                  {/* <Upload
-                    customRequest={customRequest}
-                    showUploadList={false}
-                    onChange={handleChange}
-                  >
-                    <Button icon={<UploadOutlined />} loading={uploading}>
-                      Choose File
-                    </Button>
-                  </Upload>
-                  <Input
-                    style={{ marginLeft: 10, width: 300 }}
-                    placeholder="No file chosen"
-                    value={fileName}
-                    readOnly
-                  /> */}
                 </>
               ) : (
-                <p className="text-primary">CTRI000000001.pdf</p>
+                <a
+                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=DO_${dataDetail?.po?.id}.pdf`}
+                  className="text-primary"
+                >
+                  {`DO_${dataDetail?.po?.id}.pdf`}
+                </a>
               )}
             </td>
             <td className="border border-black py-4 text-center">
               <button
                 type="button"
                 className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                onClick={() => handleDeleteDokumen([dataDetail?.po?.id, "DO"])}
               >
                 Hapus
               </button>
@@ -301,21 +489,31 @@ const DetailPoPage = ({ params }) => {
           <tr>
             <td className="border border-black py-4 px-8">Invoice</td>
             <td className="border border-black py-4 text-center">
-              {!upload ? (
-                <button
-                  type="button"
-                  className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
-                >
-                  Upload File
-                </button>
+              {!uploadINV ? (
+                <>
+                  <Upload showUploadList={false} {...propsInv}>
+                    <button
+                      type="button"
+                      className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                    >
+                      Upload File
+                    </button>
+                  </Upload>
+                </>
               ) : (
-                <p className="text-primary">CTRI000000001.pdf</p>
+                <a
+                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=INVS_${dataDetail?.po?.id}.pdf`}
+                  className="text-primary"
+                >
+                  {`INVS_${dataDetail?.po?.id}.pdf`}
+                </a>
               )}
             </td>
             <td className="border border-black py-4 text-center">
               <button
                 type="button"
                 className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                onClick={() => handleDeleteDokumen([dataDetail?.po?.id, "INV"])}
               >
                 Hapus
               </button>
@@ -325,21 +523,31 @@ const DetailPoPage = ({ params }) => {
           <tr>
             <td className="border border-black py-4 px-8">Kwitansi</td>
             <td className="border border-black py-4 text-center">
-              {!upload ? (
-                <button
-                  type="button"
-                  className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
-                >
-                  Upload File
-                </button>
+              {!uploadKWI ? (
+                <>
+                  <Upload showUploadList={false} {...propsKwitansi}>
+                    <button
+                      type="button"
+                      className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                    >
+                      Upload File
+                    </button>
+                  </Upload>
+                </>
               ) : (
-                <p className="text-primary">CTRI000000001.pdf</p>
+                <a
+                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=RCP_${dataDetail?.po?.id}.pdf`}
+                  className="text-primary"
+                >
+                  {`RCP_${dataDetail?.po?.id}.pdf`}
+                </a>
               )}
             </td>
             <td className="border border-black py-4 text-center">
               <button
                 type="button"
                 className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                onClick={() => handleDeleteDokumen([dataDetail?.po?.id, "RCP"])}
               >
                 Hapus
               </button>

@@ -64,11 +64,15 @@ const columns = [
 ];
 
 const ReceivingAdvice = () => {
+  const username = localStorage.getItem("username") || "";
   const [data, setData] = useState([]);
 
   const getDataRA = async () => {
     try {
-      const res = await API.get(URL.GET_LIST_RA);
+      const res = await API.get(
+        URL.GET_LIST_RA +
+          `?supplier_code=${username !== "admin" ? username : ""}`
+      );
 
       const data = res.data.result.items;
       setData(data);

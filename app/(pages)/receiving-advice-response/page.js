@@ -66,11 +66,15 @@ const columns = [
 ];
 
 const ReceivingAdviceResponse = () => {
+  const username = localStorage.getItem("username") || "";
   const [data, setData] = useState([]);
 
   const getDataRAR = async () => {
     try {
-      const res = await API.get(URL.GET_LIST_RAR);
+      const res = await API.get(
+        URL.GET_LIST_RAR +
+          `?supplier_code=${username !== "admin" ? username : ""}`
+      );
 
       const data = res.data.result.items;
       setData(data);

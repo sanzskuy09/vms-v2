@@ -6,15 +6,19 @@ import { API, URL } from "@/config/api";
 const columnCard1 = [
   {
     title: "Email",
-    key: "email",
+    key: "primary_email",
   },
   {
     title: "Telepon Number",
-    key: "mobile_number",
+    key: "phone",
   },
   {
     title: "Telepon Fax",
     key: "fax",
+  },
+  {
+    title: "Alamat Perusahaan",
+    key: "alamat",
   },
 ];
 
@@ -30,6 +34,10 @@ const columnCard2 = [
   {
     title: "ID Pajak",
     key: "tax_id",
+  },
+  {
+    title: "Nomor Registration Perusahaan",
+    key: "company_registration_number",
   },
 ];
 
@@ -61,6 +69,11 @@ const DetailSupplierPage = ({ params }) => {
       const filter = data.filter((item) => item.username === params.id);
 
       setDataKontak(filter[0]);
+      setDataItem((prevDataItem) => ({
+        ...prevDataItem,
+        company_registration_number: filter[0].company_registration_number,
+      }));
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -68,12 +81,8 @@ const DetailSupplierPage = ({ params }) => {
     }
   };
 
-  // const data = {
-  //   receiver_code: " 029-ITC DEPOK",
-  //   dept_code: "-Butchery",
-  //   no_order: "915003095",
-  //   tgl_order: "Kamis, 15 Januari 2015, 15:29",
-  // };
+  // console.log(dataKontak, "dataKontak");
+  // console.log(dataItem, "dataItem");
 
   useEffect(() => {
     getItemSupp();

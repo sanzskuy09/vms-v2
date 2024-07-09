@@ -65,11 +65,15 @@ const columns = [
 ];
 
 const ProformaInvoiceResponse = () => {
+  const username = localStorage.getItem("username") || "";
   const [data, setData] = useState([]);
 
   const getDataPFIR = async () => {
     try {
-      const res = await API.get(URL.GET_LIST_PFIR);
+      const res = await API.get(
+        URL.GET_LIST_PFIR +
+          `?supplier_code=${username !== "admin" ? username : ""}`
+      );
 
       const data = res.data.result.items;
       setData(data);
