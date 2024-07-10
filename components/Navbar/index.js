@@ -6,9 +6,50 @@ import Link from "next/link";
 
 import ICON from "@/config/icons";
 
+import { useRouter } from "next/navigation";
+
+import { ConfigProvider, Modal, Space, Table } from "antd";
+const { confirm } = Modal;
+import { ExclamationCircleFilled } from "@ant-design/icons";
+
 const Navbar = () => {
   const [user, setUser] = useState("");
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async (e) => {
+    confirm({
+      title: "Kamu yakin ingin logout?",
+      icon: <ExclamationCircleFilled />,
+      centered: true,
+      // content: "Some descriptions",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      async onOk() {
+        try {
+          setLoading(true);
+          localStorage.setItem("id_relawan", "");
+          localStorage.setItem("role", "");
+          localStorage.setItem("token", "");
+          localStorage.setItem("nama_panggilan", "");
+          localStorage.setItem("email", "");
+          localStorage.setItem("id_user", "");
+          localStorage.setItem("username", "");
+          setTimeout(() => {
+            setLoading(false);
+            router.push("/");
+          }, 1000);
+        } catch (error) {
+          setLoading(false);
+        }
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
   // let username = "";
   useEffect(() => {
     const username = localStorage.getItem("username") || "Admin";
@@ -75,6 +116,30 @@ const Navbar = () => {
             <Link href="/setting">
               <Image src={ICON.IC_SETTING} alt="item4" />
             </Link>
+
+            <div className="relative group">
+              <Link href="#">
+                <Image src={ICON.IC_SETTING} alt="item4" />
+              </Link>
+
+              <div className="absolute hidden group-hover:block right-0 pt-2 w-36">
+                <div className="bg-white shadow-xl drop-shadow-lg rounded">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-black hover:bg-gray-200 hover:rounded-md"
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    // href="/logout"
+                    onClick={handleLogout}
+                    className="text-left w-full px-4 py-2 text-black hover:bg-gray-200 hover:rounded-md"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
