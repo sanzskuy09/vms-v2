@@ -66,6 +66,7 @@ export const URL = {
   GET_PROFILE: "/profile/getProfile",
 
   // UPLOAD
+  GET_URL_FILE: "/inv/getfileurl",
   DOWNLOAD_FILE: "/inv/download",
   UPLOAD_SURAT_JALAN: "/inv/uploadSuratJalan",
   UPLOAD_INV: "/inv/uploadInv",

@@ -91,7 +91,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container md:px-6 mx-auto">
         <div className="py-2 flex justify-between">
           <Link href="/dashboard">
             <div className="flex items-center gap-4">
@@ -144,7 +144,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="bg-[#B81C1D] h-[145px]">
-        <div className="container mx-auto h-full grid grid-cols-6 gap-6 py-4">
+        <div className="container md:px-6 mx-auto h-full grid grid-cols-6 gap-6 py-4">
           {itemMenu.map((e, i) => (
             <Link
               href={e.href}

@@ -38,6 +38,12 @@ const DetailPoPage = ({ params }) => {
   const [fileName, setFileName] = useState("");
   const [uploading, setUploading] = useState(false);
 
+  // handle file
+  const [fileSuratJalan, setfileSuratJalan] = useState([]);
+  const [fileinvoice, setfileinvoice] = useState([]);
+  const [filekwitansi, setfilekwitansi] = useState([]);
+  const [fileTAX, setfileTAX] = useState([]);
+
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
       setUploading(true);
@@ -114,8 +120,16 @@ const DetailPoPage = ({ params }) => {
             formData,
             config
           );
-          toastSuccess("file berhasil diupload");
-          setUploadSJ(true);
+
+          const suratJalan = await API.get(
+            `${URL.GET_URL_FILE}?filename=DO_${dataDetail?.po?.id}.pdf`
+          );
+
+          if (suratJalan.status == 200) {
+            setfileSuratJalan(suratJalan.data);
+            toastSuccess("file berhasil diupload");
+            setUploadSJ(true);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -153,8 +167,16 @@ const DetailPoPage = ({ params }) => {
             formData,
             config
           );
-          toastSuccess("file berhasil diupload");
-          setUploadINV(true);
+
+          const invoice = await API.get(
+            `${URL.GET_URL_FILE}?filename=INVS_${dataDetail?.po?.id}.pdf`
+          );
+
+          if (invoice.status == 200) {
+            setfileinvoice(invoice.data);
+            toastSuccess("file berhasil diupload");
+            setUploadINV(true);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -192,8 +214,16 @@ const DetailPoPage = ({ params }) => {
             formData,
             config
           );
-          toastSuccess("file berhasil diupload");
-          setUploadKWI(true);
+
+          const kwitansi = await API.get(
+            `${URL.GET_URL_FILE}?filename=RCP_${dataDetail?.po?.id}.pdf`
+          );
+
+          if (kwitansi.status == 200) {
+            setfilekwitansi(kwitansi.data);
+            toastSuccess("file berhasil diupload");
+            setUploadKWI(true);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -227,17 +257,25 @@ const DetailPoPage = ({ params }) => {
             },
           };
 
-          await API.post(
+          const uploadTax = await API.post(
             `${URL.UPLOAD_TAX}?supplier_code=${dataDetail?.supplier_code}&purchase_order=${dataDetail?.po?.id}`,
             formData,
             config
           );
-          toastSuccess("file berhasil diupload");
-          setUploadTAX(true);
+
+          const tax = await API.get(
+            `${URL.GET_URL_FILE}?filename=TAX_${dataDetail?.po?.id}.pdf`
+          );
+
+          if (tax.status == 200) {
+            setfileTAX(tax.data);
+            toastSuccess("file berhasil diupload");
+            setUploadTAX(true);
+          }
         }
       } catch (error) {
         console.error(error);
-        toastFailed("file gagal diupload");
+        toastFailed("file TAX gagal diupload");
       }
     },
   };
@@ -255,7 +293,6 @@ const DetailPoPage = ({ params }) => {
       async onOk() {
         try {
           setLoading(true);
-          console.log(e, " data e");
 
           if (e[1] === "DO") {
             await API.delete(
@@ -264,7 +301,7 @@ const DetailPoPage = ({ params }) => {
             setUploadSJ(false);
           } else if (e[1] === "INV") {
             await API.delete(`${URL.DELETE_INV}?filename=INVS_${e[0]}.pdf`);
-            setUploadKWI(false);
+            setUploadINV(false);
           } else if (e[1] === "RCP") {
             await API.delete(`${URL.DELETE_KWITANSI}?filename=RCP_${e[0]}.pdf`);
             setUploadKWI(false);
@@ -287,6 +324,43 @@ const DetailPoPage = ({ params }) => {
     });
   };
 
+  // const getDetailINV = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const res = await API.post(URL.GET_DETAIL_INV, {
+  //       id: params.id,
+  //     });
+
+  //     const data = res.data.result.items[0];
+  //     setDataDetail(data);
+
+  //     // get surat jalan
+  //     const suratJalan = await API.get(
+  //       `${URL.GET_URL_FILE}?filename=DO_${data?.po?.id}.pdf`
+  //     );
+
+  //     if (suratJalan.status == 200) {
+  //       setfileSuratJalan(suratJalan.data);
+  //       setUploadSJ(true);
+  //     }
+
+  //     // get inv
+  //     const invoice = await API.get(
+  //       `${URL.GET_URL_FILE}?filename=INVS_${data?.po?.id}.pdf`
+  //     );
+
+  //     if (invoice.status == 200) {
+  //       setfileinvoice(invoice.data);
+  //       setUploadINV(true);
+  //     }
+
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoading(false);
+  //   }
+  // };
+
   const getDetailINV = async () => {
     try {
       setLoading(true);
@@ -294,13 +368,68 @@ const DetailPoPage = ({ params }) => {
         id: params.id,
       });
 
-      // console.log(res.data);
       const data = res.data.result.items[0];
       setDataDetail(data);
 
+      try {
+        // get surat jalan
+        const suratJalan = await API.get(
+          `${URL.GET_URL_FILE}?filename=DO_${data?.po?.id}.pdf`
+        );
+
+        if (suratJalan.status == 200) {
+          setfileSuratJalan(suratJalan.data);
+          setUploadSJ(true);
+        }
+      } catch (error) {
+        console.error("Error getting surat jalan:", error);
+      }
+
+      try {
+        // get inv
+        const invoice = await API.get(
+          `${URL.GET_URL_FILE}?filename=INVS_${data?.po?.id}.pdf`
+        );
+
+        if (invoice.status == 200) {
+          setfileinvoice(invoice.data);
+          setUploadINV(true);
+        }
+      } catch (error) {
+        console.error("Error getting invoice:", error);
+      }
+
+      try {
+        // get kwi
+        const kwitansi = await API.get(
+          `${URL.GET_URL_FILE}?filename=RCP_${data?.po?.id}.pdf`
+        );
+
+        if (kwitansi.status == 200) {
+          setfilekwitansi(kwitansi.data);
+          setUploadKWI(true);
+        }
+      } catch (error) {
+        console.error("Error getting kwitansi:", error);
+      }
+
+      try {
+        // get tax
+        const tax = await API.get(
+          `${URL.GET_URL_FILE}?filename=TAX_${data?.po?.id}.pdf`
+        );
+
+        if (tax.status == 200) {
+          setfileTAX(tax.data);
+          setUploadTAX(true);
+        }
+      } catch (error) {
+        console.error("Error getting kwitansi:", error);
+      }
+
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error("Error getting detail INV:", error);
       setLoading(false);
     }
   };
@@ -396,6 +525,7 @@ const DetailPoPage = ({ params }) => {
               <Upload
                 listType="picture"
                 beforeUpload={() => false}
+                showUploadList={false}
                 style={{ width: "100%" }}
                 {...propsTax}
               >
@@ -413,7 +543,7 @@ const DetailPoPage = ({ params }) => {
             ) : (
               <div className="flex flex-col gap-4">
                 <a
-                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=TAX_${dataDetail?.po?.id}.pdf`}
+                  href={`${fileTAX?.url_file}`}
                   className="bg-[#D9D9D9] py-4 px-8 rounded-md flex items-center gap-2"
                 >
                   <Image
@@ -422,7 +552,7 @@ const DetailPoPage = ({ params }) => {
                     width={22}
                     height={22}
                   />
-                  {`TAX_${dataDetail?.po?.id}.pdf`}
+                  {fileTAX?.filename}
                 </a>
 
                 <div>
@@ -468,10 +598,10 @@ const DetailPoPage = ({ params }) => {
                 </>
               ) : (
                 <a
-                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=DO_${dataDetail?.po?.id}.pdf`}
+                  href={`${fileSuratJalan?.url_file}`}
                   className="text-primary"
                 >
-                  {`DO_${dataDetail?.po?.id}.pdf`}
+                  {fileSuratJalan?.filename}
                 </a>
               )}
             </td>
@@ -501,11 +631,8 @@ const DetailPoPage = ({ params }) => {
                   </Upload>
                 </>
               ) : (
-                <a
-                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=INVS_${dataDetail?.po?.id}.pdf`}
-                  className="text-primary"
-                >
-                  {`INVS_${dataDetail?.po?.id}.pdf`}
+                <a href={`${fileinvoice?.url_file}`} className="text-primary">
+                  {fileinvoice?.filename}
                 </a>
               )}
             </td>
@@ -535,11 +662,8 @@ const DetailPoPage = ({ params }) => {
                   </Upload>
                 </>
               ) : (
-                <a
-                  href={`${BASE_URL}${URL.DOWNLOAD_FILE}?filename=RCP_${dataDetail?.po?.id}.pdf`}
-                  className="text-primary"
-                >
-                  {`RCP_${dataDetail?.po?.id}.pdf`}
+                <a href={`${filekwitansi?.url_file}`} className="text-primary">
+                  {filekwitansi?.filename}
                 </a>
               )}
             </td>

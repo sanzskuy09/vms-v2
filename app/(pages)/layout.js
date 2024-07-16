@@ -28,7 +28,7 @@ const PageLayout = ({ children }) => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto py-8">{children}</div>
+      <div className="container md:px-6 mx-auto py-8">{children}</div>
     </div>
   );
 };
