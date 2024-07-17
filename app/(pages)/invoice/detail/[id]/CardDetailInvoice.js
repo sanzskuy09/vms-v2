@@ -39,7 +39,7 @@ const columnCard = [
   },
 ];
 
-const CardDetailInvoice = ({ data }) => {
+const CardDetailInvoice = ({ data, showEditButton }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -213,7 +213,7 @@ const CardDetailInvoice = ({ data }) => {
             title={"Detail Invoice"}
             column={columnCard}
             data={data}
-            showEditInvButton={true}
+            showEditInvButton={showEditButton}
             editInvButtonAction={showModal}
             openModal={open}
           />

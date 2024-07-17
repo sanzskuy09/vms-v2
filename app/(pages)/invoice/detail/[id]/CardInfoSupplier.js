@@ -52,7 +52,7 @@ const columnCard = [
   },
 ];
 
-const CardInfoSupplier = ({ data }) => {
+const CardInfoSupplier = ({ data, showEditButton }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
@@ -340,7 +340,7 @@ const CardInfoSupplier = ({ data }) => {
             subTitle={data?.company_name}
             column={columnCard}
             data={data}
-            showEditButton={true}
+            showEditButton={showEditButton}
             editSuppButtonAction={showModal}
             openModal={open}
           />

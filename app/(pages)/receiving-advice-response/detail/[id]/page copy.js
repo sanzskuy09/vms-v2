@@ -12,10 +12,8 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { toastFailed, toastSuccess } from "@/utils/toastify";
 
 import { API, URL } from "@/config/api";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
-const DetailRarPage = ({ params }) => {
+const DetailRaPage = ({ params }) => {
   const router = useRouter();
   const emailUser = localStorage.getItem("email");
 
@@ -23,10 +21,10 @@ const DetailRarPage = ({ params }) => {
   const [dataDetail, setDataDetail] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const getDetailRA = async () => {
+  const getDetailRAR = async () => {
     try {
       setLoading(true);
-      const res = await API.post(URL.GET_DETAIL_RA, {
+      const res = await API.post(URL.GET_DETAIL_RAR, {
         id: params.id,
       });
 
@@ -40,14 +38,11 @@ const DetailRarPage = ({ params }) => {
     }
   };
 
-  const getItemRA = async () => {
+  const getItemRAR = async () => {
     try {
       setLoading(true);
-      const res = await API.post(URL.GET_ITEM_RA, {
-        id: params.id,
-      });
+      const res = await API.post(URL.GET_ITEM_RAR, { id: params.id });
 
-      // console.log(res);
       const data = res.data.result.items;
       setDataItem(data);
       setLoading(false);
@@ -59,7 +54,7 @@ const DetailRarPage = ({ params }) => {
 
   const handleAccept = async (e) => {
     confirm({
-      title: "Kamu yakin ingin menerima data ini?",
+      title: "Kamu yakin ingin mengirim data ini?",
       icon: <ExclamationCircleFilled />,
       centered: true,
       // content: "Some descriptions",
@@ -69,21 +64,20 @@ const DetailRarPage = ({ params }) => {
       async onOk() {
         try {
           setLoading(true);
-          const res = await API.post(URL.ACCEPT_RA, {
+          const res = await API.post(URL.ACCEPT_RAR, {
             action: "ACCEPT",
             id: params.id,
             editor_name: "system",
-            email: emailUser,
           });
 
           const pfiId = res.data.result.pfi_id;
 
-          toastSuccess("Receiving Advice Accepted");
+          toastSuccess("Receiving Advice Response Accepted");
           router.push(`/proforma-invoice/detail/${pfiId}`);
           setLoading(false);
         } catch (error) {
           console.log(error);
-          toastFailed("gagal terima receiving advice");
+          toastFailed("gagal terima receiving advice response");
           setLoading(false);
         }
       },
@@ -95,7 +89,7 @@ const DetailRarPage = ({ params }) => {
 
   const handleReject = async (e) => {
     confirm({
-      title: "Kamu yakin ingin menolak data ini?",
+      title: "Kamu yakin ingin batalkan data ini?",
       icon: <ExclamationCircleFilled />,
       centered: true,
       // content: "Some descriptions",
@@ -105,17 +99,16 @@ const DetailRarPage = ({ params }) => {
       async onOk() {
         try {
           setLoading(true);
-          const res = await API.post(URL.ACCEPT_RA, {
-            action: "REJECT",
+          const res = await API.post(URL.CANCEL_RAR, {
+            action: "CANCEL",
             id: params.id,
             editor_name: "system",
-            email: emailUser,
           });
 
-          const rarId = res.data.result.rar_id;
+          const raId = res.data.result.ra_id;
 
-          toastSuccess("Receiving Advice Rejected");
-          router.push(`/receiving-advice-response/detail/${rarId}`);
+          toastSuccess("Receiving Advice Canceled");
+          router.push(`/receiving-advice/detail/${raId}`);
           setLoading(false);
         } catch (error) {
           console.log(error);
@@ -129,67 +122,33 @@ const DetailRarPage = ({ params }) => {
     });
   };
 
-  // console.log(dataItem);
-
   useEffect(() => {
-    getItemRA();
-    getDetailRA();
+    getItemRAR();
+    getDetailRAR();
   }, []);
 
-  const downloadPDF = () => {
-    const buttons = document.querySelector(".btn-tools");
-    const title = document.querySelector(".title");
-    const capture = document.querySelector(".report");
-
-    // Hide component
-    buttons.style.display = "none";
-    title.style.display = "flex";
-
-    html2canvas(capture).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "px", "a4");
-
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("Receiving-Advice.pdf");
-    });
-
-    // Show component again
-    buttons.style.display = "flex";
-    title.style.display = "none";
-  };
-
   return (
-    <div className="report p-8">
-      <h1 className="text-4xl font-bold text-center w-full mb-12 hidden title">
-        Receiving Advice
-      </h1>
+    <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl">
-          Receiving Advice CDT : {dataDetail?.rapo?.id}
+          Receiving Advice Response CDT : {dataDetail?.po?.id}
         </h1>
 
-        <div className="flex gap-4 btn-tools">
-          <button
-            onClick={downloadPDF}
-            className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80"
-          >
+        <div className="flex gap-4">
+          <button className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80">
             Cetak Dokumen
           </button>
           <button
             onClick={handleAccept}
             className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
           >
-            Terima
+            Kirim
           </button>
           <button
             onClick={handleReject}
             className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
           >
-            Tolak
+            Cancel
           </button>
         </div>
       </div>
@@ -199,9 +158,9 @@ const DetailRarPage = ({ params }) => {
         <CardInfoSupplier data={dataDetail} />
       </div>
 
-      <TableData data={dataItem} />
+      <TableData data={dataItem} loading={loading} />
     </div>
   );
 };
 
-export default DetailRarPage;
+export default DetailRaPage;

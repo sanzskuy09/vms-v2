@@ -109,12 +109,11 @@ const Navbar = () => {
               <Image src={ICON.IC_HOME} alt="item2" />
             </Link>
 
-            <Link href="/message">
+            <Link
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=vmssupport@gmail.com"
+              target="_blank"
+            >
               <Image src={ICON.IC_MESSAGE} alt="item3" />
-            </Link>
-
-            <Link href="/setting">
-              <Image src={ICON.IC_SETTING} alt="item4" />
             </Link>
 
             <div className="relative group">

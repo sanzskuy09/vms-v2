@@ -7,7 +7,7 @@ import { ConfigProvider, Space, Table, Tag } from "antd";
 
 import ICONS from "@/config/icons";
 
-import { data } from "../proforma-invoice/data";
+// import { data } from "../proforma-invoice/data";
 
 import dayjs from "dayjs";
 

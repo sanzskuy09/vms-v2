@@ -22,9 +22,6 @@ import { toastFailed, toastSuccess } from "@/utils/toastify";
 import { API, URL, BASE_URL } from "@/config/api";
 import Image from "next/image";
 
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-
 const DetailPoPage = ({ params }) => {
   const router = useRouter();
   const emailUser = localStorage.getItem("email");
@@ -491,60 +488,13 @@ const DetailPoPage = ({ params }) => {
     getDetailINV();
   }, []);
 
-  const [isShowButton, setIsShowButton] = useState(true);
-
-  const handleShowButton = () => {
-    setIsShowButton(!isShowButton);
-  };
-
-  const downloadPDF = async () => {
-    try {
-      await handleShowButton();
-
-      const buttons = document.querySelector(".btn-tools");
-      const title = document.querySelector(".title");
-      const textUpload = document.querySelector(".text-upload");
-      const capture = document.querySelector(".report");
-
-      // Hide component
-      buttons.style.display = "none";
-      title.style.display = "flex";
-      textUpload.style.display = "flex";
-
-      html2canvas(capture).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "px", "a4");
-
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("Invoice.pdf");
-      });
-
-      // Show component again
-      buttons.style.display = "flex";
-      title.style.display = "none";
-      textUpload.style.display = "none";
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
-    <div className="report p-8">
-      <h1 className="text-4xl font-bold text-center w-full mb-12 hidden title">
-        Invoice
-      </h1>
+    <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl">Invoice CDT : {dataDetail?.po?.id}</h1>
 
-        <div className="flex gap-4 btn-tools">
-          <button
-            onClick={downloadPDF}
-            className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80"
-          >
+        <div className="flex gap-4">
+          <button className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80">
             Cetak Dokumen
           </button>
           <button
@@ -561,11 +511,11 @@ const DetailPoPage = ({ params }) => {
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <CardInfoOrder data={dataDetail} />
-        <CardInfoSupplier data={dataDetail} showEditButton={isShowButton} />
+        <CardInfoSupplier data={dataDetail} />
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <CardDetailInvoice data={dataDetail} showEditButton={isShowButton} />
+        <CardDetailInvoice data={dataDetail} />
 
         <div className={`bg-secondary p-4 h-[240px]`}>
           <h2 className="font-bold mb-2">Berkas Faktur Pajak</h2>
@@ -640,7 +590,7 @@ const DetailPoPage = ({ params }) => {
                   >
                     <button
                       type="button"
-                      className="btn-tools bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                      className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
                     >
                       Upload File
                     </button>
@@ -674,7 +624,7 @@ const DetailPoPage = ({ params }) => {
                   <Upload showUploadList={false} {...propsInv}>
                     <button
                       type="button"
-                      className="btn-tools bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                      className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
                     >
                       Upload File
                     </button>
@@ -705,7 +655,7 @@ const DetailPoPage = ({ params }) => {
                   <Upload showUploadList={false} {...propsKwitansi}>
                     <button
                       type="button"
-                      className="btn-tools bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
+                      className="bg-primary px-8 py-1 rounded-sm font-medium shadow-lg text-white"
                     >
                       Upload File
                     </button>
