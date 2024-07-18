@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
 
-import { ConfigProvider, Space, Table, Tag, Select } from "antd";
+import { ConfigProvider, Space, Table, Tag, Select, DatePicker } from "antd";
+const { RangePicker } = DatePicker;
 
 import ICONS from "@/config/icons";
 
@@ -84,28 +85,31 @@ const columns = [
 
 const optionsStatus = [
   { label: "Pilih Status", value: "" },
-  { label: "Draft", value: "DRAFT" },
-  { label: "Accepted", value: "ACCEPTED" },
-  { label: "Confirmed", value: "CONFIRMED" },
-  { label: "Payment Transit", value: "PAYMENT_IN_TRANSIT" },
-  { label: "Telah Dibuat", value: "INV_CREATED" },
-  { label: "Menunggu Respon", value: "AWAITING_ACTION" },
-];
-const optionsDept = [
-  { label: "Pilih Bussines Unit", value: "" },
-  { label: "jakarta", value: "jakarta" },
-  { label: "bandung", value: "bandung" },
+  { label: "New", value: "NEW" },
+  { label: "Accepted", value: "accepted" },
+  { label: "RA Created", value: "ra_created" },
+  { label: "RA Litigation", value: "ra_litigation" },
+  { label: "PFI Created", value: "pfi_created" },
+  { label: "PFI Litigation", value: "pfi_litigation" },
+  { label: "INV Created", value: "inv_created" },
 ];
 
 const PurchaseOrder = () => {
   const [data, setData] = useState([]);
 
-  const [search, setSearch] = useState({ status: "", business_unit_name: "" });
+  const dateFormat = "DD/MM/YYYY";
+
+  const [search, setSearch] = useState({
+    status: "",
+    start_date: "",
+    end_date: "",
+  });
+  const [dateRange, setDateRange] = useState([]);
 
   const getDataPO = async () => {
     try {
       const res = await API.get(
-        `${URL.GET_FILTER_PO}?status=${search.status}&business_unit_name=${search.business_unit_name}`
+        `${URL.GET_FILTER_PO}?status=${search.status}&start_date=${search.start_date}&end_date=${search.end_date}`
       );
 
       const data = res.data.result.items;
@@ -126,11 +130,21 @@ const PurchaseOrder = () => {
     }));
   };
 
+  const handleDateRangeChange = (dates, dateStrings) => {
+    setSearch((prevSearch) => ({
+      ...prevSearch,
+      start_date: dateStrings[0],
+      end_date: dateStrings[1],
+    }));
+    setDateRange(dates);
+  };
+
   const handleReset = async () => {
-    setSearch({ status: "", business_unit_name: "" });
+    setSearch({ status: "", start_date: "", end_date: "" });
+    setDateRange([]);
 
     const res = await API.get(
-      `${URL.GET_FILTER_PO}?status=&business_unit_name=`
+      `${URL.GET_FILTER_PO}?status=&start_date=&end_date=`
     );
 
     const data = res.data.result.items;
@@ -152,7 +166,7 @@ const PurchaseOrder = () => {
       </div>
       {/* seacrh */}
       <div className="bg-secondary min-h-[150px] rounded-md mb-8 py-10 px-16">
-        <div className="flex flex-wrap gap-16 justify-end">
+        <div className="flex gap-16 justify-end">
           <div>
             <label htmlFor="status">Status : </label>
             <Select
@@ -167,50 +181,24 @@ const PurchaseOrder = () => {
 
           <div>
             <label htmlFor="tgl-order">Tanggal Order : </label>
-            <Select
-              labelInValue
-              defaultValue={{ value: "" }}
-              style={{ width: 250 }}
-              // onChange={(value) => handleChange(value, "dept")}
-              options={optionsDept}
-            />
+            <RangePicker value={dateRange} onChange={handleDateRangeChange} />
           </div>
 
-          <div>
-            <label htmlFor="bussines">Bussines Unit : </label>
-            <Select
-              labelInValue
-              // defaultValue={{ value: "" }}
-              value={
-                search.business_unit_name
-                  ? { value: search.business_unit_name }
-                  : ""
-              }
-              style={{ width: 250 }}
-              onChange={(value) => handleChange(value, "business_unit_name")}
-              options={optionsDept}
-            />
+          <div className="flex gap-4">
+            <button
+              onClick={getDataPO}
+              className="px-4 py-1 bg-primary rounded-md shadow-lg text-white"
+            >
+              Cari
+            </button>
+            <button
+              onClick={handleReset}
+              className="px-4 py-1 bg-white rounded-md text-black shadow-lg"
+            >
+              Reset
+            </button>
           </div>
         </div>
-
-        <div className="flex justify-end mt-4 gap-4">
-          <button
-            onClick={getDataPO}
-            className="px-4 py-1 bg-primary rounded-md shadow-lg text-white"
-          >
-            Cari
-          </button>
-          <button
-            onClick={handleReset}
-            className="px-4 py-1 bg-white rounded-md text-black shadow-lg"
-          >
-            Reset
-          </button>
-        </div>
-
-        {/* <div>
-          Selected Status: {search.status}, Selected Department: {search.dept}
-        </div> */}
       </div>
 
       <div className="overflow-auto">

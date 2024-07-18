@@ -23,12 +23,14 @@ export const URL = {
 
   // RA
   GET_LIST_RA: "/ra/ralist",
+  GET_FILTER_RA: "/ra/filterra",
   GET_ITEM_RA: "/ra/itemra",
   GET_DETAIL_RA: "/ra/detailra",
   ACCEPT_RA: "/ra/acceptedra",
 
   // RAR
   GET_LIST_RAR: "/rar/rarlist",
+  GET_FILTER_RAR: "/rar/filterrar",
   GET_ITEM_RAR: "/rar/itemrar",
   GET_DETAIL_RAR: "/rar/detailrar",
   ACCEPT_RAR: "/rar/actionAcceptReject",
@@ -36,12 +38,14 @@ export const URL = {
 
   // PFI
   GET_LIST_PFI: "/pfi/pfilist",
+  GET_FILTER_PFI: "/pfi/filterpfi",
   GET_ITEM_PFI: "/pfi/itempfi",
   GET_DETAIL_PFI: "/pfi/detailpfi",
   ACCEPT_REJECT_PFI: "/pfi/acceptedpfi",
 
   // PFIR
   GET_LIST_PFIR: "/pfir/pfirlist",
+  GET_FILTER_PFIR: "/pfir/filterpfir",
   GET_ITEM_PFIR: "/pfir/itempfir",
   GET_DETAIL_PFIR: "/pfir/detailpfir",
   ACCEPT_PFIR: "/pfir/actionAcceptReject",
@@ -49,6 +53,7 @@ export const URL = {
 
   // INV
   GET_LIST_INV: "/inv/invlist",
+  GET_FILTER_INV: "/inv/filterinv",
   GET_ITEM_INV: "/inv/iteminv",
   GET_DETAIL_INV: "/inv/detailinv",
   ACCEPT_INV: "/inv/actionSend",
