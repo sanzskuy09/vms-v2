@@ -47,6 +47,8 @@ const DetailPoPage = ({ params }) => {
   const [filekwitansi, setfilekwitansi] = useState([]);
   const [fileTAX, setfileTAX] = useState([]);
 
+  console.log(dataDetail, " >> status");
+
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
       setUploading(true);
@@ -327,43 +329,6 @@ const DetailPoPage = ({ params }) => {
     });
   };
 
-  // const getDetailINV = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await API.post(URL.GET_DETAIL_INV, {
-  //       id: params.id,
-  //     });
-
-  //     const data = res.data.result.items[0];
-  //     setDataDetail(data);
-
-  //     // get surat jalan
-  //     const suratJalan = await API.get(
-  //       `${URL.GET_URL_FILE}?filename=DO_${data?.po?.id}.pdf`
-  //     );
-
-  //     if (suratJalan.status == 200) {
-  //       setfileSuratJalan(suratJalan.data);
-  //       setUploadSJ(true);
-  //     }
-
-  //     // get inv
-  //     const invoice = await API.get(
-  //       `${URL.GET_URL_FILE}?filename=INVS_${data?.po?.id}.pdf`
-  //     );
-
-  //     if (invoice.status == 200) {
-  //       setfileinvoice(invoice.data);
-  //       setUploadINV(true);
-  //     }
-
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setLoading(false);
-  //   }
-  // };
-
   const getDetailINV = async () => {
     try {
       setLoading(true);
@@ -547,15 +512,17 @@ const DetailPoPage = ({ params }) => {
           >
             Cetak Dokumen
           </button>
-          <button
-            onClick={handleAccept}
-            className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
-          >
-            Kirim
-          </button>
-          {/* <button className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80">
-            Batalkan Invoice
-          </button> */}
+
+          {(dataDetail?.status == "NEW" ||
+            dataDetail?.status == "DRAFT" ||
+            dataDetail?.status == "AWAITING_ACTION") && (
+            <button
+              onClick={handleAccept}
+              className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
+            >
+              Kirim
+            </button>
+          )}
         </div>
       </div>
 

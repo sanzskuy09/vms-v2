@@ -13,6 +13,7 @@ import { API, URL } from "../../config/api";
 
 import { toastFailed, toastSuccess } from "../../utils/toastify";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -109,12 +110,13 @@ const LoginPage = () => {
               </Form.Item>
 
               <div className="flex justify-between items-center mt-12">
-                <a
-                  href="#"
+                <Link
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=vmssupport@gmail.com"
+                  target="_blank"
                   className="text-[#0263FF] hover:text-indigo-500 font-medium"
                 >
                   Lupa password/Belum punya akun ?{" "}
-                </a>
+                </Link>
 
                 <button
                   type="submit"

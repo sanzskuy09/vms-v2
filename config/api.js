@@ -12,6 +12,8 @@ export const API = axios.create({
 
 export const URL = {
   LOGIN: "/user/login",
+  GET_ANNOUNCEMENT: "/dash/announcements",
+  EDIT_ANNOUNCEMENT: "/dash/announcements/1/content",
 
   // PO
   CREATE_PO: "/po/createPO",

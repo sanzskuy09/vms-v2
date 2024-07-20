@@ -93,7 +93,7 @@ const DetailPoPage = ({ params }) => {
   };
 
   // console.log("data item", dataItem);
-  // console.log("data detail", dataDetail);
+  // console.log("data detail", dataDetail.status);
 
   useEffect(() => {
     getDataItemPO();
@@ -135,12 +135,17 @@ const DetailPoPage = ({ params }) => {
         <h1 className="text-xl">Purchase Order CDT : {params.id}</h1>
 
         <div className="flex gap-4 btn-tools">
-          <button
-            onClick={handleAccept}
-            className="py-2 px-4 bg-primary rounded-md text-white"
-          >
-            Terima
-          </button>
+          {(dataDetail?.status == "NEW" ||
+            dataDetail?.status == "DRAFT" ||
+            dataDetail?.status == "AWAITING_ACTION") && (
+            <button
+              onClick={handleAccept}
+              className="py-2 px-4 bg-primary rounded-md text-white"
+            >
+              Terima
+            </button>
+          )}
+
           <button
             onClick={downloadPDF}
             className="py-2 px-4 bg-primary rounded-md text-white"

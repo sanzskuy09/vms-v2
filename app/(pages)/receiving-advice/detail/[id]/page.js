@@ -40,6 +40,8 @@ const DetailRarPage = ({ params }) => {
     }
   };
 
+  // console.log("data detail", dataDetail.status);
+
   const getItemRA = async () => {
     try {
       setLoading(true);
@@ -179,18 +181,25 @@ const DetailRarPage = ({ params }) => {
           >
             Cetak Dokumen
           </button>
-          <button
-            onClick={handleAccept}
-            className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
-          >
-            Terima
-          </button>
-          <button
-            onClick={handleReject}
-            className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
-          >
-            Tolak
-          </button>
+
+          {(dataDetail?.status == "NEW" ||
+            dataDetail?.status == "DRAFT" ||
+            dataDetail?.status == "AWAITING_ACTION") && (
+            <>
+              <button
+                onClick={handleAccept}
+                className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
+              >
+                Terima
+              </button>
+              <button
+                onClick={handleReject}
+                className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
+              >
+                Tolak
+              </button>
+            </>
+          )}
         </div>
       </div>
 

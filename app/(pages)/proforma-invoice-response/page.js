@@ -69,7 +69,7 @@ const optionsStatus = [
   { label: "Pilih Status", value: "" },
   { label: "Draft", value: "draft" },
   { label: "Accepted", value: "accepted" },
-  { label: "Canceled", value: "canceled" },
+  { label: "Cancelled", value: "cancelled" },
 ];
 
 const ProformaInvoiceResponse = () => {

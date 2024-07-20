@@ -8,6 +8,10 @@ import Link from "next/link";
 import { API, URL } from "@/config/api";
 
 const Dashboard = () => {
+  const username = localStorage.getItem("username") || "";
+
+  console.log(username);
+
   const [dataPO, setDataPO] = useState(0);
   const [dataRA, setDataRA] = useState(0);
   const [dataRAR, setDataRAR] = useState(0);
@@ -15,6 +19,7 @@ const Dashboard = () => {
   const [dataPFIR, setDataPFIR] = useState(0);
   const [dataINV, setDataINV] = useState(0);
   const [dataSupplier, setDataSupplier] = useState(0);
+  const [announcements, setAnnouncements] = useState([]);
 
   const data = [
     {
@@ -53,6 +58,16 @@ const Dashboard = () => {
       link: "/supplier",
     },
   ];
+
+  const getAnnouncement = async () => {
+    try {
+      const res = await API.get(URL.GET_ANNOUNCEMENT);
+      const data = res.data.result[0];
+      setAnnouncements(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getDataPO = async () => {
     try {
@@ -132,7 +147,32 @@ const Dashboard = () => {
     getDataPFIR();
     getDataINV();
     getDataSupplier();
+    getAnnouncement();
   }, []);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [content, setContent] = useState(announcements?.content || "");
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const res = await API.put(URL.EDIT_ANNOUNCEMENT, {
+        content: content,
+      });
+
+      await getAnnouncement();
+      setIsEditing(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setContent(e.target.value);
+  };
 
   return (
     <div>
@@ -172,13 +212,27 @@ const Dashboard = () => {
         <div>
           <h5 className="font-semibold text-lg mb-2">Announcement</h5>
           <div className="bg-[#F5F5F5] p-4 text-center rounded-xl font-medium">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged.
+            {isEditing ? (
+              <input
+                type="text"
+                value={content}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+              />
+            ) : (
+              <>{announcements?.content}</>
+            )}
           </div>
+          {username == "admin" && (
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={isEditing ? handleSaveClick : handleEditClick}
+                className="bg-primary p-2 rounded-md text-white w-24"
+              >
+                {isEditing ? "Save" : "Edit"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
