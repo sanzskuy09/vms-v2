@@ -199,7 +199,12 @@ const DetailRaPage = ({ params }) => {
         <CardInfoSupplier data={dataDetail} />
       </div>
 
-      <TableData data={dataItem} loading={loading} />
+      <TableData
+        data={dataItem}
+        setData={setDataItem}
+        fecthData={getItemRAR}
+        loading={loading}
+      />
     </div>
   );
 };

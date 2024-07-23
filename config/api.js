@@ -37,6 +37,7 @@ export const URL = {
   GET_DETAIL_RAR: "/rar/detailrar",
   ACCEPT_RAR: "/rar/actionAcceptReject",
   CANCEL_RAR: "/rar/actionRar",
+  EDIT_ITEM_RAR: "/rar/actionSave",
 
   // PFI
   GET_LIST_PFI: "/pfi/pfilist",
@@ -52,6 +53,7 @@ export const URL = {
   GET_DETAIL_PFIR: "/pfir/detailpfir",
   ACCEPT_PFIR: "/pfir/actionAcceptReject",
   CANCEL_PFIR: "/pfir/actionPfir",
+  EDIT_ITEM_PFIR: "/pfir/actionSave",
 
   // INV
   GET_LIST_INV: "/inv/invlist",

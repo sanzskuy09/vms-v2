@@ -52,6 +52,16 @@ const columns = [
 ];
 
 const TableData = ({ data, loading }) => {
+  const calculateTotalPrice = (data) => {
+    return data.reduce((total, item) => {
+      const qty = item.raipoi[0]?.received_qty || 0;
+      const price = item.unit_price || 0;
+      return total + qty * price;
+    }, 0);
+  };
+
+  const totalPrice = calculateTotalPrice(data);
+
   return (
     <div>
       <div>Showing : 1 to 10 ({data?.length})</div>
@@ -85,7 +95,7 @@ const TableData = ({ data, loading }) => {
         </ConfigProvider>
       </div>
       <div className="text-end font-semibold mt-4">
-        Total Harga : {formatToRupiah(1734000)}
+        Total Harga : {formatToRupiah(totalPrice)}
       </div>
     </div>
   );

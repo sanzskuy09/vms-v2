@@ -39,7 +39,13 @@ const columns = [
   },
   {
     title: "Harga sebelum pajak",
-    render: (_, render) => <p>{formatToRupiah(render.invpoi[0].unit_price)}</p>,
+    render: (_, render) => (
+      <p>
+        {formatToRupiah(
+          render.invpoi[0].unit_price * render.invpoi[0].total_qty
+        )}
+      </p>
+    ),
   },
   {
     title: "Pajak",
@@ -52,7 +58,10 @@ const columns = [
     render: (_, render) => (
       <p>
         {formatToRupiah(
-          render.invpoi[0].unit_price * render.invpoi[0].total_qty
+          (render.invpoi[0].tax_percentage *
+            (render.invpoi[0].unit_price * render.invpoi[0].total_qty)) /
+            100 +
+            render.invpoi[0].unit_price * render.invpoi[0].total_qty
         )}
       </p>
     ),
@@ -65,21 +74,18 @@ const columns = [
   },
 ];
 
-// const data = [
-//   {
-//     product_code: "901822",
-//     barcode: "5 kg/202685000000",
-//     product_name: "CHICKEN NUGGET 5KG",
-//     qty: 25,
-//     qty_pack: 1,
-//     total_qty: 25,
-//     price: 1765300,
-//     id: "9074816389098",
-//   },
-// ];
-
 const TableData = ({ data, loading }) => {
-  console.log(data);
+  const calculateTotalPrice = (data) => {
+    return data.reduce((total, item) => {
+      const qty = item.invpoi[0].total_qty || 0;
+      const price = item.invpoi[0].unit_price || 0;
+      const tax = item.invpoi[0].tax_percentage || 10;
+      return total + (tax * (price * qty)) / 100 + qty * price;
+    }, 0);
+  };
+
+  const totalPrice = calculateTotalPrice(data);
+
   return (
     <div>
       <div>Showing : 1 to 10 ({data?.length})</div>
@@ -113,7 +119,7 @@ const TableData = ({ data, loading }) => {
         </ConfigProvider>
       </div>
       <div className="text-end font-semibold mt-4">
-        Total Harga : {formatToRupiah(1734000)}
+        Total Harga : {formatToRupiah(totalPrice)}
       </div>
     </div>
   );
