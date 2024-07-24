@@ -208,7 +208,12 @@ const DetailPfiPage = ({ params }) => {
         <CardInfoSupplier data={dataDetail} />
       </div>
 
-      <TableData data={dataItem} setData={setDataItem} loading={loading} />
+      <TableData
+        data={dataItem}
+        setData={setDataItem}
+        fecthData={getItemPFIR}
+        loading={loading}
+      />
     </div>
   );
 };

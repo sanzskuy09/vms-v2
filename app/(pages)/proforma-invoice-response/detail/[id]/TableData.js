@@ -16,82 +16,59 @@ const EditableCell = ({
   ...restProps
 }) => {
   const [editing, setEditing] = useState(false);
-  const inputRef = useRef(null);
-  const form = useRef(null);
-
-  useEffect(() => {
-    if (editing) {
-      inputRef.current.focus();
-    }
-  }, [editing]);
+  const [value, setValue] = useState(record?.[dataIndex]);
 
   const toggleEdit = () => {
     setEditing(!editing);
-    form.current?.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
   };
 
   const save = async () => {
-    try {
-      const values = await form.current?.validateFields();
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
+    toggleEdit();
+    handleSave({ ...record, [dataIndex]: value });
   };
 
-  let childNode = children;
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
 
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{ margin: 0 }}
-        name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
-      >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
+  return (
+    <td {...restProps}>
+      {editable ? (
+        editing ? (
+          <Input
+            value={value}
+            onChange={handleChange}
+            onBlur={save}
+            onPressEnter={save}
+          />
+        ) : (
+          <div onClick={toggleEdit}>{children}</div>
+        )
+      ) : (
+        children
+      )}
+    </td>
+  );
 };
 
-const TableData = ({ data, setData, loading }) => {
-  const [form] = Form.useForm();
-
+const TableData = ({ data, setData, loading, fecthData }) => {
   const handleSave = async (row) => {
     const newData = [...data];
     const index = newData.findIndex((item) => row.key === item.key);
-
     if (index > -1) {
       const item = newData[index];
       newData.splice(index, 1, { ...item, ...row });
 
       try {
         await API.put(URL.EDIT_ITEM_PFIR, {
-          id: row.id,
+          RAIID: row.raipoi[0].id,
+          RECONCILED: row.reconciled,
         });
-        console.log("Data updated successfully");
       } catch (error) {
         console.error("Error updating data:", error);
       }
 
+      fecthData();
       setData(newData);
     } else {
       newData.push(row);
@@ -139,10 +116,12 @@ const TableData = ({ data, setData, loading }) => {
     },
     {
       title: "Harga Unit",
-      dataIndex: "unit_price",
-      key: "unit_price",
+      dataIndex: "reconciled",
+      key: "reconciled",
       editable: true,
-      render: (text) => <p>{formatToRupiah(text)}</p>,
+      render: (_, render) => (
+        <p>{formatToRupiah(render.raipoi[0].raipfii[0].reconciled)}</p>
+      ),
     },
     {
       title: "Keterangan",
@@ -171,7 +150,7 @@ const TableData = ({ data, setData, loading }) => {
   const calculateTotalPrice = (data) => {
     return data.reduce((total, item) => {
       const qty = item.raipoi[0]?.received_qty || 0;
-      const price = item.unit_price || 0;
+      const price = item.raipoi[0].raipfii[0].reconciled || 0;
       return total + qty * price;
     }, 0);
   };
@@ -202,21 +181,19 @@ const TableData = ({ data, setData, loading }) => {
             },
           }}
         >
-          <Form form={form} component={false}>
-            <Table
-              components={{
-                body: {
-                  cell: EditableCell,
-                },
-              }}
-              bordered
-              dataSource={data}
-              columns={mergedColumns}
-              rowClassName="editable-row"
-              pagination={false}
-              loading={loading}
-            />
-          </Form>
+          <Table
+            components={{
+              body: {
+                cell: EditableCell,
+              },
+            }}
+            bordered
+            dataSource={data}
+            columns={mergedColumns}
+            rowClassName="editable-row"
+            pagination={false}
+            loading={loading}
+          />
         </ConfigProvider>
       </div>
       <div className="text-end font-semibold mt-4">
