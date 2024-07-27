@@ -109,8 +109,12 @@ const TableData = ({ loading, data, setData, fecthData }) => {
     },
     {
       title: "QTY Dipesan",
-      dataIndex: "order_qty_insku",
-      key: "order_qty_insku",
+      // dataIndex: "order_qty_insku",
+      // key: "order_qty_insku",
+      dataIndex: "received_qty",
+      key: "received_qty",
+      editable: true,
+      render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
     },
     {
       title: "Total Diterima",
@@ -118,24 +122,6 @@ const TableData = ({ loading, data, setData, fecthData }) => {
       key: "received_qty",
       editable: true,
       render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
-    },
-    {
-      title: "Revised",
-      dataIndex: "is_revised",
-      key: "is_revised",
-      render: (_, render) => <p>{render.raipoi[0].is_revised}</p>,
-    },
-    {
-      title: "Service Level",
-      dataIndex: "service_level",
-      key: "service_level",
-      render: (text) => <p>{text} 100.00 %</p>,
-    },
-    {
-      title: "Keterangan",
-      dataIndex: "keterangan",
-      key: "keterangan",
-      render: (text) => <p>{text ? text : "-"}</p>,
     },
   ];
 

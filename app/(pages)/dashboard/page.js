@@ -59,6 +59,39 @@ const Dashboard = () => {
     },
   ];
 
+  const dataForSupp = [
+    {
+      title: "Purchase Order",
+      jumlah: dataPO,
+      link: "/purchase-order",
+    },
+    {
+      title: "Receiving Advice",
+      jumlah: dataRA,
+      link: "/receiving-advice",
+    },
+    {
+      title: "Receiving Advice Response",
+      jumlah: dataRAR,
+      link: "/receiving-advice-response",
+    },
+    {
+      title: "Proforma Invoice",
+      jumlah: dataPFI,
+      link: "/proforma-invoice",
+    },
+    {
+      title: "Proforma Invoice Response",
+      jumlah: dataPFIR,
+      link: "/proforma-invoice-response",
+    },
+    {
+      title: "Invoice",
+      jumlah: dataINV,
+      link: "/invoice",
+    },
+  ];
+
   const getAnnouncement = async () => {
     try {
       const res = await API.get(URL.GET_ANNOUNCEMENT);
@@ -192,17 +225,29 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((e, i) => (
-                    <tr className="border-b border-black" key={i}>
-                      <td className="py-4 px-4">{e.title}</td>
-                      <td className="py-4 px-4">{e.jumlah}</td>
-                      <td className="py-4 px-4">
-                        <Link href={e?.link}>
-                          <Image src={ICONS.IC_SHOW_RED} alt="show-icon" />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
+                  {username == "admin"
+                    ? data.map((e, i) => (
+                        <tr className="border-b border-black" key={i}>
+                          <td className="py-4 px-4">{e.title}</td>
+                          <td className="py-4 px-4">{e.jumlah}</td>
+                          <td className="py-4 px-4">
+                            <Link href={e?.link}>
+                              <Image src={ICONS.IC_SHOW_RED} alt="show-icon" />
+                            </Link>
+                          </td>
+                        </tr>
+                      ))
+                    : dataForSupp.map((e, i) => (
+                        <tr className="border-b border-black" key={i}>
+                          <td className="py-4 px-4">{e.title}</td>
+                          <td className="py-4 px-4">{e.jumlah}</td>
+                          <td className="py-4 px-4">
+                            <Link href={e?.link}>
+                              <Image src={ICONS.IC_SHOW_RED} alt="show-icon" />
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
                 </tbody>
               </table>
             </div>

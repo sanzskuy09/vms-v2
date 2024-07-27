@@ -43,12 +43,6 @@ const columns = [
     key: "unit_price",
     render: (text) => <p>{formatToRupiah(text)}</p>,
   },
-  {
-    title: "Keterangan",
-    dataIndex: "remark",
-    key: "remark",
-    render: (text) => <p> {text ? text : "-"}</p>,
-  },
 ];
 
 const TableData = ({ data, loading }) => {

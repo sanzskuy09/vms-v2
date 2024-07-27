@@ -41,8 +41,8 @@ const columns = [
   },
   {
     title: "Perubahan Terakhir",
-    dataIndex: "date_updated",
-    key: "date_updated",
+    dataIndex: "expected_delivery_date",
+    key: "expected_delivery_date",
     render: (text) => {
       const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
@@ -59,7 +59,7 @@ const columns = [
     dataIndex: "supplier_name",
     key: "supplier_name",
     render: (_, record) => (
-      <p>{record?.dept_code + " - " + record?.supplier_name}</p>
+      <p>{record?.store_code + " - " + record?.supplier_name}</p>
     ),
   },
   {
@@ -96,6 +96,7 @@ const optionsStatus = [
 
 const PurchaseOrder = () => {
   const [data, setData] = useState([]);
+  const [user, setUser] = useState("");
 
   const dateFormat = "DD/MM/YYYY";
 
@@ -151,18 +152,26 @@ const PurchaseOrder = () => {
     setData(data);
   };
 
+  useEffect(() => {
+    const username = localStorage.getItem("username") || "Admin";
+    setUser(username);
+  }, []);
+
   // console.log(search);
 
   return (
     <div>
       <div className="flex justify-between items-center mb-12">
         <h1 className="text-4xl">Purchase Order</h1>
-        <Link
-          href={"/purchase-order/tambah"}
-          className="px-4 py-2 bg-primary rounded-md text-white"
-        >
-          Tambah PO
-        </Link>
+
+        {user == "admin" && (
+          <Link
+            href={"/purchase-order/tambah"}
+            className="px-4 py-2 bg-primary rounded-md text-white"
+          >
+            Tambah PO
+          </Link>
+        )}
       </div>
       {/* seacrh */}
       <div className="bg-secondary min-h-[150px] rounded-md mb-8 py-10 px-16">

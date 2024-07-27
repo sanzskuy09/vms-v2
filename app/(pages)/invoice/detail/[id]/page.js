@@ -47,7 +47,7 @@ const DetailPoPage = ({ params }) => {
   const [filekwitansi, setfilekwitansi] = useState([]);
   const [fileTAX, setfileTAX] = useState([]);
 
-  console.log(dataDetail, " >> status");
+  // console.log(dataDetail, " >> status");
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -437,7 +437,7 @@ const DetailPoPage = ({ params }) => {
           const iId = res.data.result.i_id;
 
           toastSuccess("Invoice Accepted");
-          router.push(`/invoice/detail/${iId}`);
+          router.push(`/invoice`);
           setLoading(false);
         } catch (error) {
           console.log(error);
@@ -468,13 +468,11 @@ const DetailPoPage = ({ params }) => {
 
       const buttons = document.querySelector(".btn-tools");
       const title = document.querySelector(".title");
-      const textUpload = document.querySelector(".text-upload");
       const capture = document.querySelector(".report");
 
       // Hide component
       buttons.style.display = "none";
       title.style.display = "flex";
-      textUpload.style.display = "flex";
 
       html2canvas(capture).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
@@ -491,7 +489,6 @@ const DetailPoPage = ({ params }) => {
       // Show component again
       buttons.style.display = "flex";
       title.style.display = "none";
-      textUpload.style.display = "none";
     } catch (error) {
       console.log(error);
     }

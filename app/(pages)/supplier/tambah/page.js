@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-import { ConfigProvider, Form, Input } from "antd";
+import { ConfigProvider, Form, Input, Select } from "antd";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -99,7 +99,6 @@ const TambahSupplierPage = () => {
 
           const res = await API.post(URL.CREATE_SUPP, newValues);
 
-          console.log(res);
           setTimeout(() => {
             setSubmitting(false);
             resetForm();
@@ -121,6 +120,12 @@ const TambahSupplierPage = () => {
               theme={{
                 components: {
                   Input: {
+                    colorPrimary: "#ED1B24",
+                    colorBgContainer: "#F8E1E0",
+                    activeBorderColor: "#ED1B24",
+                    algorithm: true,
+                  },
+                  Select: {
                     colorPrimary: "#ED1B24",
                     colorBgContainer: "#F8E1E0",
                     activeBorderColor: "#ED1B24",
@@ -184,12 +189,18 @@ const TambahSupplierPage = () => {
                           Role
                         </label>
                         <p>:</p>
-                        <Input
-                          disabled
+                        <Select
+                          defaultValue="2"
                           size="large"
-                          className="w-28"
+                          className="w-full"
                           value={formik.values.role}
-                          {...formik.getFieldProps("role")}
+                          onChange={(value) =>
+                            formik.setFieldValue("role", value)
+                          }
+                          options={[
+                            { value: "1", label: "Admin" },
+                            { value: "2", label: "Supplier" },
+                          ]}
                         />
                       </div>
 
@@ -198,12 +209,18 @@ const TambahSupplierPage = () => {
                           Nama Role
                         </label>
                         <p>:</p>
-                        <Input
-                          disabled
+                        <Select
+                          defaultValue="supplier"
                           size="large"
-                          className="w-24"
+                          className="w-full"
                           value={formik.values.nama_role}
-                          {...formik.getFieldProps("nama_role")}
+                          onChange={(value) =>
+                            formik.setFieldValue("nama_role", value)
+                          }
+                          options={[
+                            { value: "admin", label: "Admin" },
+                            { value: "supplier", label: "Supplier" },
+                          ]}
                         />
                       </div>
                     </div>

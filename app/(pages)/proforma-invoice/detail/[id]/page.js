@@ -65,7 +65,7 @@ const DetailPfiPage = ({ params }) => {
 
   const handleAccept = async (e) => {
     confirm({
-      title: "Kamu yakin ingin mengirim data ini?",
+      title: "Kamu yakin ingin terima data ini?",
       icon: <ExclamationCircleFilled />,
       centered: true,
       // content: "Some descriptions",
@@ -191,13 +191,13 @@ const DetailPfiPage = ({ params }) => {
                 onClick={handleAccept}
                 className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
               >
-                Kirim
+                Terima
               </button>
               <button
                 onClick={handleReject}
                 className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
               >
-                Cancel
+                Tolak
               </button>
             </>
           )}

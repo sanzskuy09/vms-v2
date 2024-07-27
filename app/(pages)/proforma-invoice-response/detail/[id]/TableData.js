@@ -123,12 +123,6 @@ const TableData = ({ data, setData, loading, fecthData }) => {
         <p>{formatToRupiah(render.raipoi[0].raipfii[0].reconciled)}</p>
       ),
     },
-    {
-      title: "Keterangan",
-      dataIndex: "remark",
-      key: "remark",
-      render: (text) => <p> {text ? text : "-"}</p>,
-    },
   ];
 
   const mergedColumns = columns.map((col) => {

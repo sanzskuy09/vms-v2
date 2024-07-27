@@ -101,9 +101,11 @@ const Navbar = () => {
           </Link>
 
           <div className="flex items-center gap-4">
-            <Link href="/supplier">
-              <Image src={ICON.IC_PROFILE} alt="item1" />
-            </Link>
+            {user == "admin" && (
+              <Link href="/supplier">
+                <Image src={ICON.IC_PROFILE} alt="item1" />
+              </Link>
+            )}
 
             <Link href="/dashboard">
               <Image src={ICON.IC_HOME} alt="item2" />

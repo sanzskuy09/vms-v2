@@ -39,8 +39,11 @@ const columns = [
   },
   {
     title: "QTY Dipesan",
-    dataIndex: "order_qty_insku",
-    key: "order_qty_insku",
+    // dataIndex: "order_qty_insku",
+    // key: "order_qty_insku",
+    dataIndex: "received_qty",
+    key: "received_qty",
+    render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
   },
   {
     title: "Total Diterima",
@@ -48,18 +51,18 @@ const columns = [
     key: "received_qty",
     render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
   },
-  {
-    title: "Revised",
-    dataIndex: "is_revised",
-    key: "is_revised",
-    render: (_, render) => <p>N</p>,
-  },
-  {
-    title: "Service Level",
-    dataIndex: "service_level",
-    key: "service_level",
-    render: (text) => <p>100.00 %</p>,
-  },
+  // {
+  //   title: "Revised",
+  //   dataIndex: "is_revised",
+  //   key: "is_revised",
+  //   render: (_, render) => <p>N</p>,
+  // },
+  // {
+  //   title: "Service Level",
+  //   dataIndex: "service_level",
+  //   key: "service_level",
+  //   render: (text) => <p>100.00 %</p>,
+  // },
 ];
 
 const TableData = ({ data }) => {

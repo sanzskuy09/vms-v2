@@ -33,18 +33,21 @@ const columns = [
   },
   {
     title: "QTY order",
-    dataIndex: "order_qty_insku",
-    key: "order_qty_insku",
+    dataIndex: "order_qty_in_pack",
+    key: "order_qty_in_pack",
+    render: (_, render) => <p>{render.order_qty_in_pack}</p>,
   },
   {
     title: "QTY/Pack",
-    dataIndex: "order_qty_in_pack",
-    key: "order_qty_in_pack",
+    dataIndex: "qty_per_pack",
+    key: "qty_per_pack",
+    render: (_, render) => <p>{render.qty_per_pack}</p>,
   },
   {
     title: "Total Qty",
-    dataIndex: "qty_per_pack",
-    key: "order_qty_insku",
+    render: (_, render) => (
+      <p>{render.qty_per_pack * render.order_qty_in_pack}</p>
+    ),
   },
   {
     title: "Harga Unit",
@@ -59,7 +62,7 @@ const TableData = ({ data }) => {
     let total = 0;
 
     data.forEach((item) => {
-      total += item.unit_price * item.order_qty_insku;
+      total += item.unit_price * (item.qty_per_pack * item.order_qty_in_pack);
     });
 
     return formatToRupiah(total);
