@@ -33,9 +33,9 @@ const columns = [
     title: "Tanggal Order",
     dataIndex: "order_date",
     key: "order_date",
-    // render: (text) => <p>{dayjs(text).format("DD-MM-YYYY")}</p>,
     render: (text) => {
-      const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
+      const formattedDate = dayjs(text).format("DD-MM-YYYY");
+      // const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
     },
   },
@@ -44,7 +44,8 @@ const columns = [
     dataIndex: "expected_delivery_date",
     key: "expected_delivery_date",
     render: (text) => {
-      const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
+      const formattedDate = dayjs(text).format("DD-MM-YYYY");
+      // const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
     },
   },

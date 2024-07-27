@@ -43,7 +43,8 @@ const columns = [
     dataIndex: "date_updated",
     key: "date_updated",
     render: (text) => {
-      const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
+      const formattedDate = dayjs(text).format("DD-MM-YYYY");
+      // const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
     },
   },
@@ -52,7 +53,8 @@ const columns = [
     dataIndex: "tax_invoice_date",
     key: "tax_invoice_date",
     render: (text) => {
-      const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
+      const formattedDate = dayjs(text).format("DD-MM-YYYY");
+      // const formattedDate = dayjs(text).subtract(1, "day").format("DD-MM-YYYY");
       return <p>{formattedDate}</p>;
     },
   },
