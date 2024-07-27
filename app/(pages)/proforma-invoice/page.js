@@ -85,8 +85,11 @@ const ProformaInvoice = () => {
   const getDataPFI = async () => {
     try {
       const res = await API.get(
-        URL.GET_LIST_PFI +
-          `?supplier_code=${username !== "admin" ? username : ""}`
+        `${URL.GET_LIST_PFI}?supplier_code=${
+          username !== "admin" ? username : ""
+        }&status=${search.status}&start_date=${search.start_date}&end_date=${
+          search.end_date
+        }`
       );
 
       const data = res.data.result.items;
@@ -167,7 +170,7 @@ const ProformaInvoice = () => {
 
           <div className="flex gap-4">
             <button
-              onClick={getFilterPFI}
+              onClick={getDataPFI}
               className="px-4 py-1 bg-primary rounded-md shadow-lg text-white"
             >
               Cari

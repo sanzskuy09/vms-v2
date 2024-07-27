@@ -86,8 +86,11 @@ const ReceivingAdviceResponse = () => {
   const getDataRAR = async () => {
     try {
       const res = await API.get(
-        URL.GET_LIST_RAR +
-          `?supplier_code=${username !== "admin" ? username : ""}`
+        `${URL.GET_LIST_RAR}?supplier_code=${
+          username !== "admin" ? username : ""
+        }&status=${search.status}&start_date=${search.start_date}&end_date=${
+          search.end_date
+        }`
       );
 
       const data = res.data.result.items;
@@ -100,19 +103,6 @@ const ReceivingAdviceResponse = () => {
   useEffect(() => {
     getDataRAR();
   }, []);
-
-  const getFilterRAR = async () => {
-    try {
-      const res = await API.get(
-        `${URL.GET_FILTER_RAR}?status=${search.status}&start_date=${search.start_date}&end_date=${search.end_date}`
-      );
-
-      const data = res.data.result.items;
-      setData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleChange = (value, type) => {
     setSearch((prevSearch) => ({
@@ -168,7 +158,7 @@ const ReceivingAdviceResponse = () => {
 
           <div className="flex gap-4">
             <button
-              onClick={getFilterRAR}
+              onClick={getDataRAR}
               className="px-4 py-1 bg-primary rounded-md shadow-lg text-white"
             >
               Cari

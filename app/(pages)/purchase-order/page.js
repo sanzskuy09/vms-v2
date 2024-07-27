@@ -97,6 +97,7 @@ const optionsStatus = [
 const PurchaseOrder = () => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState("");
+  const username = localStorage.getItem("username") || "";
 
   const dateFormat = "DD/MM/YYYY";
 
@@ -110,7 +111,11 @@ const PurchaseOrder = () => {
   const getDataPO = async () => {
     try {
       const res = await API.get(
-        `${URL.GET_FILTER_PO}?status=${search.status}&start_date=${search.start_date}&end_date=${search.end_date}`
+        `${URL.GET_LIST_PO}?supplier_code=${
+          username !== "admin" ? username : ""
+        }&status=${search.status}&start_date=${search.start_date}&end_date=${
+          search.end_date
+        }`
       );
 
       const data = res.data.result.items;
@@ -119,10 +124,6 @@ const PurchaseOrder = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    getDataPO();
-  }, []);
 
   const handleChange = (value, type) => {
     setSearch((prevSearch) => ({
@@ -155,6 +156,8 @@ const PurchaseOrder = () => {
   useEffect(() => {
     const username = localStorage.getItem("username") || "Admin";
     setUser(username);
+
+    getDataPO();
   }, []);
 
   // console.log(search);

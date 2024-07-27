@@ -89,8 +89,11 @@ const ReceivingAdvice = () => {
   const getDataRA = async () => {
     try {
       const res = await API.get(
-        URL.GET_LIST_RA +
-          `?supplier_code=${username !== "admin" ? username : ""}`
+        `${URL.GET_LIST_RA}?supplier_code=${
+          username !== "admin" ? username : ""
+        }&status=${search.status}&start_date=${search.start_date}&end_date=${
+          search.end_date
+        }`
       );
 
       const data = res.data.result.items;
@@ -103,19 +106,6 @@ const ReceivingAdvice = () => {
   useEffect(() => {
     getDataRA();
   }, []);
-
-  const getFilterRA = async () => {
-    try {
-      const res = await API.get(
-        `${URL.GET_FILTER_RA}?status=${search.status}&start_date=${search.start_date}&end_date=${search.end_date}`
-      );
-
-      const data = res.data.result.items;
-      setData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleChange = (value, type) => {
     setSearch((prevSearch) => ({
@@ -173,7 +163,7 @@ const ReceivingAdvice = () => {
 
           <div className="flex gap-4">
             <button
-              onClick={getFilterRA}
+              onClick={getDataRA}
               className="px-4 py-1 bg-primary rounded-md shadow-lg text-white"
             >
               Cari

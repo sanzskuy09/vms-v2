@@ -39,11 +39,8 @@ const columns = [
   },
   {
     title: "QTY Dipesan",
-    // dataIndex: "order_qty_insku",
-    // key: "order_qty_insku",
-    dataIndex: "received_qty",
-    key: "received_qty",
-    render: (_, render) => <p>{render.raipoi[0].received_qty}</p>,
+    dataIndex: "order_qty_insku",
+    key: "order_qty_insku",
   },
   {
     title: "Total Diterima",
