@@ -214,6 +214,16 @@ const DetailPfiPage = ({ params }) => {
         fecthData={getItemPFIR}
         loading={loading}
       />
+
+      <div className="mt-8">
+        <p className="font-semibold m-0">Keterangan :</p>
+        <ul className="list-disc font-semibold pl-5">
+          <li>
+            untuk dapat mengirim data ini, diharuskan mengubah harga item pada
+            kolom harga unit agar bisa dilanjutkan ke proses Invoice
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

@@ -210,6 +210,17 @@ const DetailPfiPage = ({ params }) => {
       </div>
 
       <TableData data={dataItem} loading={loading} />
+
+      <div className="mt-8">
+        <p className="font-semibold m-0">Keterangan :</p>
+        <ul className="list-disc font-semibold pl-5">
+          <li>
+            apabila terjadi perubahan harga per item, dan sudah mengkonfirmasi
+            ke pihak commersial/buyer maka anda bisa menolak PFI ini untuk
+            diproses ke PFIR
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

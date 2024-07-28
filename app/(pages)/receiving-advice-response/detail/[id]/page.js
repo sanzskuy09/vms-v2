@@ -205,6 +205,17 @@ const DetailRaPage = ({ params }) => {
         fecthData={getItemRAR}
         loading={loading}
       />
+
+      <div className="mt-8">
+        <p className="font-semibold m-0">Keterangan :</p>
+        <ul className="list-disc font-semibold pl-5">
+          <li>
+            untuk dapat mengirim data ini, diharuskan mengubah sesuai dengan
+            jumlah diterima TRI pada kolom total diterima agar bisa
+            di proses ke PFI
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

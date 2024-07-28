@@ -533,7 +533,11 @@ const DetailPoPage = ({ params }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <CardDetailInvoice data={dataDetail} showEditButton={isShowButton} />
+        <CardDetailInvoice
+          data={dataDetail}
+          setData={getDetailINV}
+          showEditButton={isShowButton}
+        />
 
         <div className={`bg-secondary p-4 h-[240px]`}>
           <h2 className="font-bold mb-2">Berkas Faktur Pajak</h2>
@@ -699,6 +703,16 @@ const DetailPoPage = ({ params }) => {
       </div>
 
       <TableData data={dataItem} loading={loading} />
+
+      <div className="mt-8">
+        <p className="font-semibold m-0">Keterangan :</p>
+        <ul className="list-disc font-semibold pl-5">
+          <li>
+            untuk dapat mengirim data ini, diharuskan mengubah harga item pada
+            kolom harga unit agar bisa dilanjutkan ke proses Invoice
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

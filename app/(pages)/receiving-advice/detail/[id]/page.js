@@ -209,6 +209,17 @@ const DetailRarPage = ({ params }) => {
       </div>
 
       <TableData data={dataItem} />
+
+      <div className="mt-8">
+        <p className="font-semibold m-0">Keterangan :</p>
+        <ul className="list-disc font-semibold pl-5">
+          <li>
+            apabila total yang dikirim ke TRI tidak sesuai dengan pesanan, dan
+            sudah mengkonfirmasi ke pihak commersial/buyer maka anda bisa
+            menolak RA ini untuk diproses ke RAR
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

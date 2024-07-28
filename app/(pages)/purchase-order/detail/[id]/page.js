@@ -162,7 +162,7 @@ const DetailPoPage = ({ params }) => {
 
       <TableData data={dataItem} />
 
-      <div>
+      <div className="mt-8">
         <p className="font-semibold m-0">Keterangan :</p>
         <ul className="list-disc font-semibold pl-5">
           <li>Selalu sertakan dokumen ini saat melakukan pengiriman barang</li>

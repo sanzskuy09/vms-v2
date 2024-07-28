@@ -12,34 +12,30 @@ import { toastSuccess, toastFailed } from "@/utils/toastify";
 const columnCard = [
   {
     title: "Nomor Seri Pajak",
-    object: "po",
-    key: "fax",
+    key: "tax_serial_number",
   },
   {
-    title: "Konfirmaasi Nomor Seri Pajak",
-    object: "po",
-    key: "fax",
+    title: "Konfirmasi Nomor Seri Pajak",
+    key: "tax_serial_number",
   },
   {
     title: "Tanggal Faktur Pajak",
-    object: "po",
-    key: "order_date",
+    key: "tax_invoice_date",
     dataIndex: "date",
   },
   {
     title: "Nomor Invoice Supplier",
-    object: "po",
-    key: "dept_code",
+    key: "invoice_id",
   },
   {
     title: "Tanggal Invoice Supplier",
     // object: "po",
-    key: "tax_invoice_date",
+    key: "invoice_date",
     dataIndex: "date",
   },
 ];
 
-const CardDetailInvoice = ({ data, showEditButton }) => {
+const CardDetailInvoice = ({ data, setData, showEditButton }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -52,13 +48,12 @@ const CardDetailInvoice = ({ data, showEditButton }) => {
     setOpen(false);
   };
 
-  console.log(data);
-
   const initialValues = {
-    po_no: data?.fax,
-    order_date: data?.po?.order_date,
-    dept_code: data?.po?.dept_code,
+    tax_serial_number: data?.tax_serial_number,
+    konfirmasi_tax_serial_number: data?.tax_serial_number,
     tax_invoice_date: data?.tax_invoice_date,
+    invoice_id: data?.invoice_id,
+    invoice_date: data?.invoice_date,
   };
 
   return (
@@ -66,28 +61,40 @@ const CardDetailInvoice = ({ data, showEditButton }) => {
       initialValues={initialValues}
       enableReinitialize={true}
       validationSchema={Yup.object({
-        po_no: Yup.string().required("Required"),
-        order_date: Yup.string().required("Required"),
-        dept_code: Yup.string().required("Required"),
+        tax_serial_number: Yup.string().required("Required"),
+        konfirmasi_tax_serial_number: Yup.string().required("Required"),
         tax_invoice_date: Yup.string().required("Required"),
+        invoice_id: Yup.string().required("Required"),
+        invoice_date: Yup.string().required("Required"),
       })}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
           const newvalues = {
-            NOMOR_SERI_PAJAK: values.po_no,
-            CONFIRM_N_SERI_PAJAK: values.po_no,
+            NOMOR_SERI_PAJAK: values.tax_serial_number,
+            CONFIRM_N_SERI_PAJAK: values.konfirmasi_tax_serial_number,
             TANGGAL_FAKTUR_PAJAK: values.tax_invoice_date,
-            NOMOR_INVOICE_SUPPLIER: values.city,
-            TANGGAL_INVOICE_SUPPLIER: values.country,
+            NOMOR_INVOICE_SUPPLIER: values.invoice_id,
+            TANGGAL_INVOICE_SUPPLIER: values.invoice_date,
             ID: data?.id,
           };
 
-          const res = await API.put(URL.ACTION_SAVE_INV, { id: data?.id });
+          if (
+            values.tax_serial_number !== values.konfirmasi_tax_serial_number
+          ) {
+            toastFailed("Konfirmasi Nomor Seri Pajak Tidak Sesuai");
+            resetForm();
+            setSubmitting(false);
+            setOpen(false);
+            return false;
+          }
+
+          const res = await API.put(URL.ACTION_SAVE_INV, newvalues);
 
           setTimeout(() => {
             setSubmitting(false);
             resetForm();
             toastSuccess("Edit Invoice Success");
+            setData();
             setOpen(false);
           }, 400);
         } catch (error) {
@@ -121,76 +128,43 @@ const CardDetailInvoice = ({ data, showEditButton }) => {
             >
               <form action="" onSubmit={formik.handleSubmit}>
                 <div className="flex gap-3 items-center flex-auto">
-                  <label htmlFor="po_no" className="min-w-44">
+                  <label htmlFor="tax_serial_number" className="min-w-44">
                     Nomor Seri Pajak
                   </label>
                   <p>:</p>
                   <div className="flex flex-col w-full">
                     <Input
                       size="large"
-                      value={formik.values.po_no}
-                      {...formik.getFieldProps("po_no")}
+                      value={formik.values.tax_serial_number}
+                      {...formik.getFieldProps("tax_serial_number")}
                     />
-                    {formik.touched.po_no && formik.errors.po_no ? (
+                    {formik.touched.tax_serial_number &&
+                    formik.errors.tax_serial_number ? (
                       <div className="text-red-600 text-[10px]">
-                        {formik.errors.po_no}
+                        {formik.errors.tax_serial_number}
                       </div>
                     ) : null}
                   </div>
                 </div>
 
                 <div className="flex gap-3 items-center flex-auto">
-                  <label htmlFor="po_no" className="min-w-44">
-                    Konfirmaasi Nomor Seri Pajak
+                  <label
+                    htmlFor="konfirmasi_tax_serial_number"
+                    className="min-w-44"
+                  >
+                    Konfirmasi Nomor Seri Pajak
                   </label>
                   <p>:</p>
                   <div className="flex flex-col w-full">
                     <Input
                       size="large"
-                      value={formik.values.po_no}
-                      {...formik.getFieldProps("po_no")}
+                      value={formik.values.konfirmasi_tax_serial_number}
+                      {...formik.getFieldProps("konfirmasi_tax_serial_number")}
                     />
-                    {formik.touched.po_no && formik.errors.po_no ? (
+                    {formik.touched.konfirmasi_tax_serial_number &&
+                    formik.errors.konfirmasi_tax_serial_number ? (
                       <div className="text-red-600 text-[10px]">
-                        {formik.errors.po_no}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-
-                <div className="flex gap-3 items-center flex-auto">
-                  <label htmlFor="order_date" className="min-w-44">
-                    Tanggal Faktur Pajak
-                  </label>
-                  <p>:</p>
-                  <div className="flex flex-col w-full">
-                    <Input
-                      size="large"
-                      value={formik.values.order_date}
-                      {...formik.getFieldProps("order_date")}
-                    />
-                    {formik.touched.order_date && formik.errors.order_date ? (
-                      <div className="text-red-600 text-[10px]">
-                        {formik.errors.order_date}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-
-                <div className="flex gap-3 items-center flex-auto">
-                  <label htmlFor="dept_code" className="min-w-44">
-                    Nomor Invoice Supplier
-                  </label>
-                  <p>:</p>
-                  <div className="flex flex-col w-full">
-                    <Input
-                      size="large"
-                      value={formik.values.dept_code}
-                      {...formik.getFieldProps("dept_code")}
-                    />
-                    {formik.touched.dept_code && formik.errors.dept_code ? (
-                      <div className="text-red-600 text-[10px]">
-                        {formik.errors.dept_code}
+                        {formik.errors.konfirmasi_tax_serial_number}
                       </div>
                     ) : null}
                   </div>
@@ -198,7 +172,7 @@ const CardDetailInvoice = ({ data, showEditButton }) => {
 
                 <div className="flex gap-3 items-center flex-auto">
                   <label htmlFor="tax_invoice_date" className="min-w-44">
-                    Tanggal Invoice Supplier
+                    Tanggal Faktur Pajak
                   </label>
                   <p>:</p>
                   <div className="flex flex-col w-full">
@@ -211,6 +185,45 @@ const CardDetailInvoice = ({ data, showEditButton }) => {
                     formik.errors.tax_invoice_date ? (
                       <div className="text-red-600 text-[10px]">
                         {formik.errors.tax_invoice_date}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 items-center flex-auto">
+                  <label htmlFor="invoice_id" className="min-w-44">
+                    Nomor Invoice Supplier
+                  </label>
+                  <p>:</p>
+                  <div className="flex flex-col w-full">
+                    <Input
+                      size="large"
+                      value={formik.values.invoice_id}
+                      {...formik.getFieldProps("invoice_id")}
+                    />
+                    {formik.touched.invoice_id && formik.errors.invoice_id ? (
+                      <div className="text-red-600 text-[10px]">
+                        {formik.errors.invoice_id}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 items-center flex-auto">
+                  <label htmlFor="invoice_date" className="min-w-44">
+                    Tanggal Invoice Supplier
+                  </label>
+                  <p>:</p>
+                  <div className="flex flex-col w-full">
+                    <Input
+                      size="large"
+                      value={formik.values.invoice_date}
+                      {...formik.getFieldProps("invoice_date")}
+                    />
+                    {formik.touched.invoice_date &&
+                    formik.errors.invoice_date ? (
+                      <div className="text-red-600 text-[10px]">
+                        {formik.errors.invoice_date}
                       </div>
                     ) : null}
                   </div>
