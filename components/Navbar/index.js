@@ -38,8 +38,8 @@ const Navbar = () => {
           localStorage.setItem("id_user", "");
           localStorage.setItem("username", "");
           setTimeout(() => {
+            router.push("/login");
             setLoading(false);
-            router.push("/");
           }, 1000);
         } catch (error) {
           setLoading(false);

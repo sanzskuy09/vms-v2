@@ -14,89 +14,89 @@ import { toastSuccess, toastFailed } from "@/utils/toastify";
 const TambahPOPage = () => {
   const router = useRouter();
 
-  const initialValues = {
-    // po
-    id_purchase_order: "CTRI000000000024",
-    nomor_purchase_order: "CTRI000000000024",
-    tanggal_pengiriman: "2024-06-30",
-    pengiriman_ke: "Alamat Pengiriman",
-    dikirim_ke: "Jakarta",
-    kode_pengirim: "SEN24",
-
-    // supplier
-    kode_supplier: "8330",
-    nama_supplier: "Supplier 24",
-    telepon: "021-7654321",
-    telephone_fax: "021-1234567",
-    kode_departemen: "24",
-    nama_departemen: "Departemen 24",
-    departemen_supplier: "3",
-
-    // toko
-    kode_toko: "24",
-    nomor_pesanan_toko: "ORD24",
-    kode_business_unit: "BU24",
-    nama_business_unit: "Unit Bisnis 24",
-    alamat_business_unit: "Alamat Bisnis",
-
-    // items
-    kode_item: "ITEM24",
-    nama_item: "Sandal 24",
-    nama_item_lokal: "Sandal baru",
-    barcode: "1234567890123",
-    harga_item: "50000",
-    kapasitas: "100ml",
-    jumlah: "10",
-    nomor_garis: "1",
-    gratis: "0",
-    jumlah_per_pack: "15",
-    jumlah_pack: "10",
-    jumlah_pesanan: "100",
-    total_harga: "600000",
-    pesanan_dari: "System",
-  };
-
   // const initialValues = {
   //   // po
-  //   id_purchase_order: "",
-  //   nomor_purchase_order: "",
-  //   tanggal_pengiriman: "",
-  //   pengiriman_ke: "",
-  //   dikirim_ke: "",
-  //   kode_pengirim: "",
+  //   id_purchase_order: "CTRI000000000024",
+  //   nomor_purchase_order: "CTRI000000000024",
+  //   tanggal_pengiriman: "2024-06-30",
+  //   pengiriman_ke: "Alamat Pengiriman",
+  //   dikirim_ke: "Jakarta",
+  //   kode_pengirim: "SEN24",
 
   //   // supplier
-  //   kode_supplier: "",
-  //   nama_supplier: "",
-  //   telepon: "",
-  //   telephone_fax: "",
-  //   kode_departemen: "",
-  //   nama_departemen: "",
-  //   departemen_supplier: "",
+  //   kode_supplier: "8330",
+  //   nama_supplier: "Supplier 24",
+  //   telepon: "021-7654321",
+  //   telephone_fax: "021-1234567",
+  //   kode_departemen: "24",
+  //   nama_departemen: "Departemen 24",
+  //   departemen_supplier: "3",
 
   //   // toko
-  //   kode_toko: "",
-  //   nomor_pesanan_toko: "",
-  //   kode_business_unit: "",
-  //   nama_business_unit: "",
-  //   alamat_business_unit: "",
+  //   kode_toko: "24",
+  //   nomor_pesanan_toko: "ORD24",
+  //   kode_business_unit: "BU24",
+  //   nama_business_unit: "Unit Bisnis 24",
+  //   alamat_business_unit: "Alamat Bisnis",
 
   //   // items
-  //   kode_item: "",
-  //   nama_item: "",
-  //   nama_item_lokal: "",
-  //   barcode: "",
-  //   harga_item: "",
-  //   kapasitas: "",
-  //   jumlah: "",
-  //   nomor_garis: "",
-  //   gratis: "",
-  //   jumlah_per_pack: "",
-  //   jumlah_pack: "",
-  //   jumlah_pesanan: "",
-  //   total_harga: "",
-  //   pesanan_dari: "",
+  //   kode_item: "ITEM24",
+  //   nama_item: "Sandal 24",
+  //   nama_item_lokal: "Sandal baru",
+  //   barcode: "1234567890123",
+  //   harga_item: "50000",
+  //   kapasitas: "100ml",
+  //   jumlah: "10",
+  //   nomor_garis: "1",
+  //   gratis: "0",
+  //   jumlah_per_pack: "15",
+  //   jumlah_pack: "10",
+  //   jumlah_pesanan: "100",
+  //   total_harga: "600000",
+  //   pesanan_dari: "System",
   // };
+
+  const initialValues = {
+    // po
+    id_purchase_order: "",
+    nomor_purchase_order: "",
+    tanggal_pengiriman: "",
+    pengiriman_ke: "",
+    dikirim_ke: "",
+    kode_pengirim: "",
+
+    // supplier
+    kode_supplier: "",
+    nama_supplier: "",
+    telepon: "",
+    telephone_fax: "",
+    kode_departemen: "",
+    nama_departemen: "",
+    departemen_supplier: "",
+
+    // toko
+    kode_toko: "",
+    nomor_pesanan_toko: "",
+    kode_business_unit: "",
+    nama_business_unit: "",
+    alamat_business_unit: "",
+
+    // items
+    kode_item: "",
+    nama_item: "",
+    nama_item_lokal: "",
+    barcode: "",
+    harga_item: "",
+    kapasitas: "",
+    jumlah: "",
+    nomor_garis: "",
+    gratis: "",
+    jumlah_per_pack: "",
+    jumlah_pack: "",
+    jumlah_pesanan: "",
+    total_harga: "",
+    pesanan_dari: "",
+  };
 
   return (
     <Formik
@@ -164,22 +164,23 @@ const TambahPOPage = () => {
             nama_business_unit: values.nama_business_unit,
             alamat_business_unit: values.alamat_business_unit,
 
+            jumlah: values.jumlah,
+            total_harga: values.total_harga,
+
             items: [
               {
+                barcode: values.barcode,
+                kapasitas: values.kapasitas,
+                gratis: values.gratis,
                 kode_item: values.kode_item,
                 nama_item: values.nama_item,
                 nama_item_lokal: values.nama_item_lokal,
-                barcode: values.barcode,
-                harga_item: values.harga_item,
-                kapasitas: values.kapasitas,
-                jumlah: values.jumlah,
                 nomor_garis: values.nomor_garis,
-                gratis: values.gratis,
-                jumlah_per_pack: values.jumlah_per_pack,
+                pesanan_dari: values.pesanan_dari,
                 jumlah_pack: values.jumlah_pack,
                 jumlah_pesanan: values.jumlah_pesanan,
-                total_harga: values.total_harga,
-                pesanan_dari: values.pesanan_dari,
+                jumlah_per_pack: values.jumlah_per_pack,
+                harga_item: values.harga_item,
               },
             ],
           };

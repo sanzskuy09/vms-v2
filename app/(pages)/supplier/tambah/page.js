@@ -190,6 +190,7 @@ const TambahSupplierPage = () => {
                         </label>
                         <p>:</p>
                         <Select
+                          disabled
                           defaultValue="2"
                           size="large"
                           className="w-full"
@@ -210,6 +211,7 @@ const TambahSupplierPage = () => {
                         </label>
                         <p>:</p>
                         <Select
+                          disabled
                           defaultValue="supplier"
                           size="large"
                           className="w-full"

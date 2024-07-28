@@ -147,7 +147,7 @@ const PurchaseOrder = () => {
     setDateRange([]);
 
     const res = await API.get(
-      `${URL.GET_FILTER_PO}?status=&start_date=&end_date=`
+      `${URL.GET_LIST_PO}?supplier_code=${username !== "admin" ? username : ""}`
     );
 
     const data = res.data.result.items;
