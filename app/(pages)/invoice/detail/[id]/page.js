@@ -525,7 +525,11 @@ const DetailPoPage = ({ params }) => {
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <CardInfoOrder data={dataDetail} />
-        <CardInfoSupplier data={dataDetail} showEditButton={isShowButton} />
+        <CardInfoSupplier
+          data={dataDetail}
+          setData={getDetailINV}
+          showEditButton={isShowButton}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">

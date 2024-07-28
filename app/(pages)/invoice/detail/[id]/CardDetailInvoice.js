@@ -13,12 +13,12 @@ const columnCard = [
   {
     title: "Nomor Seri Pajak",
     object: "po",
-    key: "po_no",
+    key: "fax",
   },
   {
     title: "Konfirmaasi Nomor Seri Pajak",
     object: "po",
-    key: "po_no",
+    key: "fax",
   },
   {
     title: "Tanggal Faktur Pajak",
@@ -52,8 +52,10 @@ const CardDetailInvoice = ({ data, showEditButton }) => {
     setOpen(false);
   };
 
+  console.log(data);
+
   const initialValues = {
-    po_no: data?.po?.po_no,
+    po_no: data?.fax,
     order_date: data?.po?.order_date,
     dept_code: data?.po?.dept_code,
     tax_invoice_date: data?.tax_invoice_date,
@@ -71,7 +73,16 @@ const CardDetailInvoice = ({ data, showEditButton }) => {
       })}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
-          const res = await API.post(URL.ACTION_SAVE_INV, { id: data?.id });
+          const newvalues = {
+            NOMOR_SERI_PAJAK: values.po_no,
+            CONFIRM_N_SERI_PAJAK: values.po_no,
+            TANGGAL_FAKTUR_PAJAK: values.tax_invoice_date,
+            NOMOR_INVOICE_SUPPLIER: values.city,
+            TANGGAL_INVOICE_SUPPLIER: values.country,
+            ID: data?.id,
+          };
+
+          const res = await API.put(URL.ACTION_SAVE_INV, { id: data?.id });
 
           setTimeout(() => {
             setSubmitting(false);

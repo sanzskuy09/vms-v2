@@ -18,7 +18,7 @@ const columnCard1 = [
   },
   {
     title: "Alamat Perusahaan",
-    key: "alamat",
+    key: "company_address1",
   },
 ];
 

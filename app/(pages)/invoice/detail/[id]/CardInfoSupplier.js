@@ -52,7 +52,7 @@ const columnCard = [
   },
 ];
 
-const CardInfoSupplier = ({ data, showEditButton }) => {
+const CardInfoSupplier = ({ data, setData, showEditButton }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
@@ -99,13 +99,25 @@ const CardInfoSupplier = ({ data, showEditButton }) => {
       })}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
-          const res = await API.post(URL.ACTION_SAVE_SUPP, { id: data?.id });
+          const newvalues = {
+            NAMA_PERUSAHAAN: values.company_name,
+            ALAMAT_PERUSAHAAN: values.company_address1,
+            KODE_POS: values.postal_code,
+            KOTA: values.city,
+            NEGARA: values.country,
+            TELEPON: values.telephone_number,
+            FAX: values.fax,
+            EMAIL: values.email,
+            id: data?.id,
+          };
 
-          console.log(res);
+          const res = await API.put(URL.ACTION_SAVE_SUPP, newvalues);
+
           setTimeout(() => {
             setSubmitting(false);
             resetForm();
             toastSuccess("Edit Supplier Success");
+            setData();
             setOpen(false);
           }, 400);
         } catch (error) {
