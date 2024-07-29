@@ -52,7 +52,21 @@ const DetailSupplierPage = ({ params }) => {
       const res = await API.get(`${URL.GET_ITEM_SUPP}?code=${params.id}`);
 
       const data = res.data.result[0];
-      setDataItem(data);
+
+      const resDetail = await API.post(URL.GET_DETAIL_SUPP);
+
+      const dataDetail = resDetail.data.result.items;
+      const filter = dataDetail?.filter((item) => item.username === params.id);
+
+      setDataKontak(filter[0]);
+      setDataItem((prevDataItem) => ({
+        ...prevDataItem,
+        code: data.code,
+        local_name: data.local_name,
+        tax_id: data.tax_id,
+        company_registration_number: filter[0].company_registration_number,
+      }));
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -66,7 +80,7 @@ const DetailSupplierPage = ({ params }) => {
       const res = await API.post(URL.GET_DETAIL_SUPP);
 
       const data = res.data.result.items;
-      const filter = data.filter((item) => item.username === params.id);
+      const filter = data?.filter((item) => item.username === params.id);
 
       setDataKontak(filter[0]);
       setDataItem((prevDataItem) => ({

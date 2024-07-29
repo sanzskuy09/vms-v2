@@ -79,14 +79,14 @@ const DetailPfiPage = ({ params }) => {
             editor_name: "system",
           });
 
-          const pfiId = res.data.result.pfi_id;
+          const invoice_id = res.data.result.invoice_id;
 
           toastSuccess("Proforma Invoice Accepted");
-          router.push(`/invoice/detail/${pfiId}`);
+          router.push(`/invoice/detail/${invoice_id}`);
           setLoading(false);
         } catch (error) {
           console.log(error);
-          toastFailed("gagal terima receiving advice response");
+          toastFailed("gagal kriim proforma invoice response");
           setLoading(false);
         }
       },
@@ -180,6 +180,13 @@ const DetailPfiPage = ({ params }) => {
             className="py-2 px-4 bg-primary rounded-md text-white hover:opacity-80"
           >
             Cetak Dokumen
+          </button>
+
+          <button
+            onClick={handleAccept}
+            className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
+          >
+            Kirim
           </button>
 
           {(dataDetail?.status == "NEW" ||
