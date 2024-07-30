@@ -182,13 +182,6 @@ const DetailPfiPage = ({ params }) => {
             Cetak Dokumen
           </button>
 
-          <button
-            onClick={handleAccept}
-            className="py-2 px-4 bg-primary rounded-md text-white w-24 hover:opacity-80"
-          >
-            Kirim
-          </button>
-
           {(dataDetail?.status == "NEW" ||
             dataDetail?.status == "DRAFT" ||
             dataDetail?.status == "AWAITING_ACTION") && (
