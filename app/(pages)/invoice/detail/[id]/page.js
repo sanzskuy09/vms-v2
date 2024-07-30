@@ -708,8 +708,9 @@ const DetailPoPage = ({ params }) => {
         <p className="font-semibold m-0">Keterangan :</p>
         <ul className="list-disc font-semibold pl-5">
           <li>
-            untuk dapat mengirim data ini, diharuskan mengubah harga item pada
-            kolom harga unit agar bisa dilanjutkan ke proses Invoice
+            TRI hanya akan menerima invoice yang sudah melengkapi informasi
+            invoice serta pengumpulan berkas faktur pajak, Tax Invoice,
+            Kwitansi dan Invoice
           </li>
         </ul>
       </div>
