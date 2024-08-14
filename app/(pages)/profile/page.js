@@ -7,8 +7,11 @@ import * as Yup from "yup";
 import { API, URL } from "@/config/api";
 
 import { toastSuccess, toastFailed } from "@/utils/toastify";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
+  const router = useRouter();
+
   const idUser = localStorage.getItem("id_user") || "";
   const username = localStorage.getItem("username") || "Admin";
 
